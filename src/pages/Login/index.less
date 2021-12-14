@@ -1,0 +1,146 @@
+.login-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  .ant-carousel {
+    height: 100%;
+    :nth-child(1) {
+      height: 100%;
+    }
+    .login-swiper > ul {
+      opacity: 0;
+    }
+  }
+  .login-content {
+    position: absolute;
+    right: 15%;
+    top: 20%;
+    width: 460px;
+    background-color: #fff;
+    border: 1px solid #dfecfa;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px 0px #dfecfa;
+    .login-title {
+      text-align: center;
+      position: relative;
+      border-bottom: 1px solid #dfecfa;
+      padding-top: 15px;
+      padding-bottom: 17px;
+      .login-logo {
+        width: 152px;
+        height: 38px;
+        line-height: 38px;
+        margin: 0 auto;
+      }
+    }
+    .form-group {
+      padding: 40px 70px;
+    }
+  }
+  .login-footer {
+    width: 590px;
+    height: 20px;
+    font-size: 12px;
+    color: rgba(3, 17, 46, 0.65);
+    position: fixed;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+//antd 样式修改
+.login-radio {
+  border: 1px solid rgba(3, 17, 46, 0.04);
+  border-radius: 3px;
+  margin-bottom: 23px;
+  label {
+    width: 157px;
+    height: 46px;
+    line-height: 46px;
+    margin-left: 0px;
+    text-align: center;
+  }
+  :nth-child(2):before {
+    display: none;
+  }
+  label,
+  label:hover,
+  .ant-radio-button-wrapper-checked,
+  .ant-radio-button-wrapper-checked:first-child,
+  .ant-radio-button-wrapper-checked:hover {
+    font-size: 16px;
+    color: #38b2ce;
+    border: none;
+    border-left: none;
+    box-shadow: none;
+  }
+  .ant-radio-button-wrapper {
+    background-color: rgba(3, 17, 46, 0.04);
+  }
+  .ant-radio-button-wrapper-checked {
+    background-color: #ffffff;
+  }
+  .ant-radio-button-wrapper:first-child,
+  .ant-radio-button-wrapper:last-child {
+    border-left: none;
+  }
+  .ant-radio-button-wrapper:focus-within {
+    outline: none;
+  }
+}
+.login-btn {
+  // padding-left: 54px;
+  .ant-btn-primary,
+  .ant-btn-primary:hover,
+  .ant-btn-primary:focus {
+    width: 318px;
+    height: 50px;
+    background-color: #38b2ce;
+    border-color: #38b2ce;
+    span {
+      line-height: 40px;
+      font-size: 16px;
+      color: #ffffff;
+    }
+  }
+}
+
+.login-input {
+  margin-bottom: 0px;
+  .ant-form-item-control {
+    height: 74px;
+    .ant-form-item-control-input-content {
+      height: 50px;
+      // line-height: 24px;
+      .ant-input-affix-wrapper {
+        height: 50px;
+        // .ant-input {
+        //     height: 40px;
+        // }
+        // .ant-input-prefix {
+        //     svg {
+        //         height: 16px;
+        //         width: 16px;
+        //     }
+
+        // }
+      }
+    }
+  }
+  .ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
+    border-color: #38b2ce;
+  }
+  .ant-input:focus,
+  .ant-input:hover {
+    box-shadow: none;
+    border-color: #38b2ce;
+  }
+  .has-error .ant-input-affix-wrapper .ant-input,
+  .has-error .ant-input-affix-wrapper .ant-input:hover {
+    background-color: #fff;
+    border-color: #f5222d;
+  }
+}
