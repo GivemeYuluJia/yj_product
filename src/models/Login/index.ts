@@ -1,3 +1,4 @@
+import { login, getCurrentUser } from '@/services/login';
 export const NAMESPACE = 'loginModel';
 const Model = {
   namespace: NAMESPACE,
@@ -26,7 +27,30 @@ const Model = {
     ],
     userInfo: {},
   },
-  effects: {},
-  reducers: {},
+  effects: {
+    *login({ payload: params, callback }, { call, put }) {
+      const res = yield call(login, { ...params });
+      return res;
+    },
+    *getCurrentUser({ payload: params }, { call, put }) {
+      const res = yield call(getCurrentUser, { ...params });
+      const { data } = res;
+      yield put({
+        type: 'setUserInfo',
+        payload: {
+          userInfo: data,
+        },
+      });
+      return res;
+    },
+  },
+  reducers: {
+    setUserInfo(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+  },
 };
 export default Model;

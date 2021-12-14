@@ -1,14 +1,5 @@
 import React, { useEffect } from 'react';
-import { history, Link } from 'umi';
 
-const SecurityLayout = (props) => {
-  const { children } = props;
-  useEffect(() => {
-    if (!localStorage.getItem('yjToken')) {
-      history.push('./login');
-    }
-  }, []);
+const SecurityLayout: React.FC = ({ children }) => <>{children}</>;
 
-  return children;
-};
 export default SecurityLayout;
