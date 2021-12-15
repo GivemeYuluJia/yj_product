@@ -1,4 +1,4 @@
-import { request } from 'umi';
+import request from '@/unils/request';
 
 export async function login(
   body: API.LoginParams,
@@ -13,11 +13,8 @@ export async function login(
     ...(options || {}),
   });
 }
-export async function getCurrentUser(config?: { [key: string]: any }) {
+export async function getCurrentUser() {
   return request('/api/getCurrentUser', {
     method: 'POST',
-    headers: {
-      ...config,
-    },
   });
 }

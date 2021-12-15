@@ -13,7 +13,8 @@ const Login = (props) => {
   const [loginType, setLoginType] = useState('account');
 
   useEffect(() => {
-    if (userInfo.id) {
+    console.log(props, 'effect');
+    if (localStorage.getItem('token')) {
       console.log('//////');
       if (!history) return;
       const { query } = history.location;
@@ -22,7 +23,7 @@ const Login = (props) => {
       return;
     }
   }, []);
-
+  console.log(props, 'login props');
   const handleChange = (el) => {
     setLoginType(el.target.value);
     form.setFieldsValue({
@@ -45,8 +46,8 @@ const Login = (props) => {
             localStorage.setItem('token', data);
           }
           //gai update
-          const token = localStorage.getItem('token');
-          const user = await getCurrentUser({ token });
+          //   const token = localStorage.getItem('token');
+          const user = await getCurrentUser();
           if (user.status === 'ok') {
             if (!history) return;
             const { query } = history.location;
