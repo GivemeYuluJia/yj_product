@@ -1,3 +1,4 @@
+import person from './person';
 export default [
   {
     path: '/',
@@ -11,10 +12,16 @@ export default [
         path: '/',
         component: '../layouts/BasicLayout',
         routes: [
+          { path: '/', redirect: '/person' },
+          ...person,
+
           {
             component: './404',
           },
         ],
+      },
+      {
+        component: './404',
       },
     ],
   },

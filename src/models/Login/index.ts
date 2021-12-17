@@ -1,5 +1,5 @@
 import { login, getCurrentUser } from '@/services/login';
-export const NAMESPACE = 'loginModel';
+export const NAMESPACE = 'login';
 const Model = {
   namespace: NAMESPACE,
   state: {

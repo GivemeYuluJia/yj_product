@@ -9,13 +9,13 @@ import './index.less';
 const Login = (props) => {
   const [form] = Form.useForm();
   const { imgList, userInfo, login, getCurrentUser } = props;
-  const [pageLoading, setPageLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
   const [loginType, setLoginType] = useState('account');
 
   useEffect(() => {
+    setPageLoading(false);
     console.log(props, 'effect');
     if (localStorage.getItem('token')) {
-      console.log('//////');
       if (!history) return;
       const { query } = history.location;
       const { redirect } = query as { redirect: string };
