@@ -4,7 +4,7 @@ const PersonSetting = (props) => {
   const { children } = props;
   return (
     <>
-      <div>wwww</div>
+      <div>wwwwss</div>
     </>
   );
 };
