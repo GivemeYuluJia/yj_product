@@ -2,14 +2,17 @@ import { Request, Response } from 'express';
 
 const menuList = [
   {
-    path: '/person',
+    path: '/account',
     name: '个人页面',
     icon: 'smile',
-    routes: [
+    children: [
       {
-        path: '/person/setting',
+        path: '/account/center',
+        name: '个人中心',
+      },
+      {
+        path: '/account/setting',
         name: '个人设置',
-        component: './Person/Setting',
       },
     ],
   },

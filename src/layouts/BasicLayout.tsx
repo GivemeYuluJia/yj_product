@@ -1,5 +1,9 @@
-import ProLayout, { PageLoading, PageContainer } from '@ant-design/pro-layout';
-import React, { useState, useEffect } from 'react';
+import ProLayout, {
+  PageLoading,
+  PageContainer,
+  MenuDataItem,
+} from '@ant-design/pro-layout';
+import React, { useState, useEffect, useRef } from 'react';
 import { history, connect, Link } from 'umi';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
@@ -14,6 +18,8 @@ const IconMap = {
 const BasicLayout: React.FC = (props) => {
   const { userInfo, settings, menuList, dispatch, children } = props;
 
+  const menDateRef = useRef<MenuDataItem[]>([]);
+
   useEffect(() => {
     if (!userInfo.id) {
       dispatch({ type: 'login/getCurrentUser' });
@@ -21,34 +27,38 @@ const BasicLayout: React.FC = (props) => {
     dispatch({ type: 'menu/getMenuList' });
   }, []);
   const loopMenuItem = (menus) =>
-    menus.map(({ icon, routes, ...item }) => ({
+    menus.map(({ icon, children, ...item }) => ({
       ...item,
       icon: icon && IconMap[icon as string],
-      routes: routes && loopMenuItem(routes),
+      routes: children && loopMenuItem(children),
     }));
   console.log(props, 'mmmm');
   return (
     <ConfigProvider locale={zhCN}>
       <ProLayout
+        {...props}
         {...settings}
         headerTheme="light"
-        menu={{
-          request: () =>
-            loopMenuItem([
-              {
-                path: '/person',
-                name: '个人页面',
-                icon: 'smile',
-                routes: [
-                  {
-                    path: '/person/setting',
-                    name: '个人设置',
-                    component: './Person/Setting',
-                  },
-                ],
-              },
-            ]),
-        }}
+        // menu={{
+        //   request: () =>
+        //     loopMenuItem([
+        //       {
+        //         path: '/person',
+        //         name: '个人页面',
+        //         icon: 'smile',
+        //         children: [
+        //           {
+        //             path: '/person/setting',
+        //             name: '个人设置',
+        //           },
+        //           {
+        //             path: '/person/inter',
+        //             name: '个人信息',
+        //           }
+        //         ],
+        //       },
+        //     ]),
+        // }}
         disableContentMargin={false}
         disableMobile={false}
         onMenuHeaderClick={() => history.push(`/`)}
@@ -58,11 +68,11 @@ const BasicLayout: React.FC = (props) => {
           }
           return <Link to={menuItemProps.path}>- {defaultDom}</Link>;
         }}
-
-        // postMenuData={(menuData) => {
-        //     console.log(menuData,'ddd')
-        //     return loopMenuItem(menuList || []) || []
-        // }}
+        postMenuData={(menuData) => {
+          console.log(menuData, 'ddd');
+          menDateRef.current = menuData || [];
+          return loopMenuItem(menuList || []) || [];
+        }}
       >
         <PageContainer
           ghost

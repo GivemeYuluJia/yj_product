@@ -33,7 +33,7 @@ const Login = (props) => {
       code: undefined,
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.ChangeEvent<HTMLButtonElement>) => {
     form.validateFields().then(async (val) => {
       setPageLoading(true);
       if (loginType === 'account') {

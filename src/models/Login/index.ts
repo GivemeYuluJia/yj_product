@@ -1,4 +1,6 @@
 import { login, getCurrentUser } from '@/services/login';
+import { updateTag } from '@/pages/account/center/service';
+
 export const NAMESPACE = 'login';
 const Model = {
   namespace: NAMESPACE,
@@ -28,7 +30,7 @@ const Model = {
     userInfo: {},
   },
   effects: {
-    *login({ payload: params, callback }, { call, put }) {
+    *login({ payload: params }, { call, put }) {
       const res = yield call(login, { ...params });
       return res;
     },
@@ -41,6 +43,10 @@ const Model = {
           userInfo: data,
         },
       });
+      return res;
+    },
+    *updateTag({ payload: params }, { call, put }) {
+      const res = yield call(updateTag, { ...params });
       return res;
     },
   },

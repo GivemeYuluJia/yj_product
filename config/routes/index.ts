@@ -1,4 +1,4 @@
-import person from './person';
+import account from './account';
 export default [
   {
     path: '/',
@@ -12,8 +12,8 @@ export default [
         path: '/',
         component: '../layouts/BasicLayout',
         routes: [
-          { path: '/', redirect: '/person' },
-          ...person,
+          { path: '/', redirect: '/account' },
+          ...account,
 
           {
             component: './404',
