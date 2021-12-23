@@ -1,9 +1,11 @@
+export type tabKeyType = 'moment' | 'applications' | 'projects';
+//标签
 export interface TagType {
   key: string;
   label: string;
   color: number;
 }
-
+//城市
 export type GeographicType = {
   province: {
     label: string;
@@ -14,6 +16,7 @@ export type GeographicType = {
     key: string;
   };
 };
+//部门组织
 export type NoticeType = {
   id: string;
   title: string;
@@ -24,7 +27,7 @@ export type NoticeType = {
   href: string;
   memberLink: string;
 };
-
+//用户信息
 export type CurrentUser = {
   studentName: string;
   avatar: string;
@@ -42,4 +45,19 @@ export type CurrentUser = {
   geographic: GeographicType;
   address: string;
   phone: string;
+};
+type imgListType = {
+  url: string;
+  id: string;
+};
+//动态
+export type MomentType = {
+  id: string;
+  img: string | Array<imgListType>;
+  content: string;
+  likeNumber: number;
+  starNumber: number;
+  messageNumber: number;
+  updatedAt: number;
+  createdAt: number;
 };

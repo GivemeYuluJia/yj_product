@@ -28,6 +28,7 @@ const Model = {
       },
     ],
     userInfo: {},
+    loading: true,
   },
   effects: {
     *login({ payload: params }, { call, put }) {
@@ -41,6 +42,7 @@ const Model = {
         type: 'setUserInfo',
         payload: {
           userInfo: data,
+          loading: false,
         },
       });
       return res;

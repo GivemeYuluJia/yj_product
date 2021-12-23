@@ -69,7 +69,6 @@ const BasicLayout: React.FC = (props) => {
           return <Link to={menuItemProps.path}>- {defaultDom}</Link>;
         }}
         postMenuData={(menuData) => {
-          console.log(menuData, 'ddd');
           menDateRef.current = menuData || [];
           return loopMenuItem(menuList || []) || [];
         }}

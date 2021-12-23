@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-
+import { userMoment } from '../account';
 //权限
 const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
 
@@ -17,7 +17,7 @@ const avatars = [
   //福州理工
   'https://imgsrc.baidu.com/forum/pic/item/0dd7912397dda144ff0c4c78b7b7d0a20df486f6.jpg',
 ];
-const userToken = [
+export const userToken = [
   {
     studentId: 1801126027,
     studentName: '马大葱',
@@ -144,7 +144,7 @@ export default {
           data: '',
         });
   },
-
+  // 修改用户标签
   'POST /api/updateTag': async (req: Request, res: Response) => {
     const { token } = req.headers;
     const { key, color, label } = req.body;

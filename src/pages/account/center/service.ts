@@ -14,3 +14,8 @@ export async function updateTag({ params }: tagOption) {
     // ...(options || {}),
   });
 }
+export async function getMomentList() {
+  return request('/api/account/moment', {
+    method: 'POST',
+  });
+}

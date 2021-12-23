@@ -8,42 +8,20 @@ import {
 import { Row, Col, Card, Divider, Tag, Input, message, Avatar } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 import { connect, Link } from 'umi';
-import { CurrentUser, TagType } from './data';
+import Moments from './components/Moments';
+import { CurrentUser, TagType, tabKeyType, MomentType } from './data';
 import { tagColor } from './const';
 
 import './index.less';
 
 export interface AccountCenterProps {
   userInfo: CurrentUser;
+  momentList: Array<MomentType>;
   updateTag: (params: any) => any;
+  getMomentList: () => any;
   [params: string]: any;
 }
-const operationTabList = [
-  {
-    key: 'moment',
-    tab: (
-      <span>
-        动态 <span style={{ fontSize: 14 }}>(8)</span>
-      </span>
-    ),
-  },
-  {
-    key: 'applications',
-    tab: (
-      <span>
-        应用 <span style={{ fontSize: 14 }}>(8)</span>
-      </span>
-    ),
-  },
-  {
-    key: 'projects',
-    tab: (
-      <span>
-        项目 <span style={{ fontSize: 14 }}>(8)</span>
-      </span>
-    ),
-  },
-];
+
 //  渲染用户信息
 const renderUserInfo = ({
   title,
@@ -161,16 +139,64 @@ const TagList: React.FC<{
 };
 
 const AccountCenter: React.FC<AccountCenterProps> = (props) => {
-  const { userInfo, updateTag } = props;
+  const { userInfo, loading, momentList, updateTag, getMomentList } = props;
+  const [tabKey, setTabKey] = useState<tabKeyType>('moment');
+
   useEffect(() => {
-    console.log();
+    getMomentList();
   }, []);
+  // 渲染用户动态/
+  const operationTabList = [
+    {
+      key: 'moment',
+      tab: (
+        <span>
+          动态 <span style={{ fontSize: 14 }}>({momentList.length})</span>
+        </span>
+      ),
+    },
+    {
+      key: 'applications',
+      tab: (
+        <span>
+          应用 <span style={{ fontSize: 14 }}>(8)</span>
+        </span>
+      ),
+    },
+    {
+      key: 'projects',
+      tab: (
+        <span>
+          项目 <span style={{ fontSize: 14 }}>(8)</span>
+        </span>
+      ),
+    },
+  ];
+  // 渲染tab切换
+  const renderChildrenByTabKey = (tabValue: tabKeyType) => {
+    // if (tabValue === 'projects') {
+    //   return <Projects />;
+    // }
+    // if (tabValue === 'applications') {
+    //   return <Applications />;
+    // }
+    if (tabValue === 'moment') {
+      return (
+        <Moments
+          momentList={momentList}
+          avatar={userInfo.avatar}
+          name={userInfo.studentName}
+        />
+      );
+    }
+    return null;
+  };
   return (
     <GridContent>
       <Row gutter={16}>
         <Col span={24}>
-          <Card bordered={false} style={{ marginBottom: 24 }}>
-            {userInfo && (
+          <Card bordered={false} style={{ marginBottom: 24 }} loading={loading}>
+            {!loading && userInfo && (
               <div>
                 <div className="avatarHolder">
                   <img alt="" src={userInfo.avatar} />
@@ -204,22 +230,27 @@ const AccountCenter: React.FC<AccountCenterProps> = (props) => {
             className="tabsCard"
             bordered={false}
             tabList={operationTabList}
-            // activeTabKey={tabKey}
-            // onTabChange={(_tabKey: string) => {
-            //   setTabKey(_tabKey as tabKeyType);
-            // }}
-          ></Card>
+            activeTabKey={tabKey}
+            onTabChange={(_tabKey: string) => {
+              setTabKey(_tabKey as tabKeyType);
+            }}
+          >
+            {renderChildrenByTabKey(tabKey)}
+          </Card>
         </Col>
       </Row>
     </GridContent>
   );
 };
 export default connect(
-  ({ login }: any) => ({
+  ({ login, account }: any) => ({
     userInfo: login.userInfo,
+    loading: login.loading,
+    momentList: account.momentList,
   }),
   (dispatch: any) => ({
     updateTag: (params: TagType) =>
       dispatch({ type: `login/updateTag`, payload: params }),
+    getMomentList: () => dispatch({ type: `account/getMomentList` }),
   }),
 )(AccountCenter);
