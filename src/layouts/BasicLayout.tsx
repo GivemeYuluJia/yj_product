@@ -2,31 +2,42 @@ import ProLayout, {
   PageLoading,
   PageContainer,
   MenuDataItem,
+  BasicLayoutProps as ProLayoutProps,
 } from '@ant-design/pro-layout';
 import React, { useState, useEffect, useRef } from 'react';
-import { history, connect, Link } from 'umi';
+import { history, connect, Link, Dispatch } from 'umi';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import logo from '@/assets/Layout/logo.png';
 import { SmileOutlined, HeartOutlined } from '@ant-design/icons';
-
+import { userInfoType } from '@/pages/Login/data';
+import { Settings as LayoutSettings } from '@ant-design/pro-layout';
+import { MenuListType } from '../models/Menu';
 const IconMap = {
   smile: <SmileOutlined />,
   heart: <HeartOutlined />,
 };
-
-const BasicLayout: React.FC = (props) => {
+interface BasicLayoutProps extends ProLayoutProps {
+  userInfo: userInfoType;
+  settings: LayoutSettings & {
+    pwa?: boolean;
+    logo?: string;
+  };
+  menuList: Array<MenuListType>;
+  dispatch: Dispatch;
+}
+const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const { userInfo, settings, menuList, dispatch, children } = props;
 
   const menDateRef = useRef<MenuDataItem[]>([]);
 
   useEffect(() => {
-    if (!userInfo.id) {
+    if (!userInfo.userid) {
       dispatch({ type: 'login/getCurrentUser' });
     }
     dispatch({ type: 'menu/getMenuList' });
   }, []);
-  const loopMenuItem = (menus) =>
+  const loopMenuItem = (menus: MenuListType[]): any =>
     menus.map(({ icon, children, ...item }) => ({
       ...item,
       icon: icon && IconMap[icon as string],
@@ -86,7 +97,7 @@ const BasicLayout: React.FC = (props) => {
     </ConfigProvider>
   );
 };
-export default connect(({ login, menu }) => ({
+export default connect(({ login, menu }: any) => ({
   userInfo: login.userInfo,
   settings: menu.settings,
   menuList: menu.menuList,

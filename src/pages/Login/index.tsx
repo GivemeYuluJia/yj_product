@@ -3,10 +3,18 @@ import { Radio, Form, Button, message, Spin, Carousel } from 'antd';
 import { NAMESPACE } from '@/models/Login';
 import Item from './item';
 import { connect, history } from 'umi';
+import { imgListType, userInfoType } from './data';
 
 import './index.less';
 
-const Login = (props) => {
+interface LoginProps {
+  imgList: Array<imgListType>;
+  userInfo: userInfoType;
+  login: (parmas: any) => any;
+  getCurrentUser: (parmas?: any) => any;
+}
+
+const Login: React.FC<LoginProps> = (props) => {
   const [form] = Form.useForm();
   const { imgList, userInfo, login, getCurrentUser } = props;
   const [pageLoading, setPageLoading] = useState(true);
@@ -125,7 +133,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => ({
   login: (params: object) =>
     dispatch({ type: `${NAME_SPACE}/login`, payload: params }),
-  getCurrentUser: (params) =>
+  getCurrentUser: (params: any) =>
     dispatch({ type: `${NAME_SPACE}/getCurrentUser`, payload: params }),
 });
 

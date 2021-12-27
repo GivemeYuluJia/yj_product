@@ -8,6 +8,7 @@ let access =
 const getAccess = () => {
   return access;
 };
+
 const titles = ['清华大学', '北京大学', '福州理工学院'];
 const avatars = [
   //清华
@@ -34,9 +35,10 @@ const userList = [
     studentName: '马大葱',
     avatar:
       'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fnimg.ws.126.net%2F%3Furl%3Dhttp%253A%252F%252Fdingyue.ws.126.net%252F2021%252F1110%252F4bbe6708j00r2bj2m000dc0008c008cg.jpg%26thumbnail%3D650x2147483647%26quality%3D80%26type%3Djpg&refer=http%3A%2F%2Fnimg.ws.126.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1642580933&t=e749295b6c4feb3298de2a60111649ef',
-    phone: 123456789,
+    phone: '86-13999999997',
     sex: '男',
     school: '福州理工学院',
+    email: '123456789@qq.com',
     signature: 'emo小王子马大葱是也',
     organization: '18级物联网工程二班',
     group: '前校实践部部长',
@@ -85,14 +87,15 @@ const userList = [
         memberLink: '',
       },
     ],
+    country: '中国',
     geographic: {
       province: {
         label: '山西省',
-        key: '030000',
+        key: '140000',
       },
       city: {
         label: '大同市',
-        key: '037000',
+        key: '140200',
       },
     },
   },
@@ -171,5 +174,12 @@ export default {
           status: 'error',
           data: '',
         });
+  },
+  // 头像修改
+  'POST /api/account/updateAvatar': async (req: Request, res: Response) => {
+    res.send({
+      status: 'ok',
+      success: true,
+    });
   },
 };

@@ -1,8 +1,29 @@
+import { Reducer, Effect } from 'umi';
 import { login, getCurrentUser } from '@/services/login';
 import { updateTag } from '@/pages/account/center/service';
+import { imgListType, userInfoType } from '@/pages/Login/data';
+
+export interface LoginState {
+  imgList: Array<imgListType>;
+  userInfo: userInfoType;
+  loading: boolean;
+}
+
+interface LoginModel {
+  namespace: string;
+  state: LoginState;
+  effects: {
+    login: Effect;
+    getCurrentUser: Effect;
+    updateTag: Effect;
+  };
+  reducers: {
+    setUserInfo: Reducer;
+  };
+}
 
 export const NAMESPACE = 'login';
-const Model = {
+const Model: LoginModel = {
   namespace: NAMESPACE,
   state: {
     imgList: [

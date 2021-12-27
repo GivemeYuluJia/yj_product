@@ -22,7 +22,7 @@ const MomentListContent: React.FC<ContentProps> = ({
           <Row>
             {img.map((item) => {
               return (
-                <Col span={8}>
+                <Col span={8} key={item.id}>
                   <img
                     className={styles.momentImgList}
                     key={item.id}
