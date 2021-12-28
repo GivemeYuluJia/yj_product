@@ -44,4 +44,5 @@ export type userInfoType = {
   notice?: Array<NoticeType>;
   country?: string;
   geographic?: GeographicType;
+  address?: string;
 };

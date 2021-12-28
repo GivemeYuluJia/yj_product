@@ -4,9 +4,10 @@ import ProForm, {
   ProFormTextArea,
   ProFormSelect,
   ProFormDependency,
+  ProFormFieldSet,
 } from '@ant-design/pro-form';
 import { connect } from 'umi';
-import { Upload, Button, message } from 'antd';
+import { Upload, Button, message, Input } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { userInfoType } from '@/pages/Login/data';
 import { defaultAvatar } from '@/layouts/SecurityLayout';
@@ -19,7 +20,7 @@ export interface BaseViewProps {
   loading: boolean;
   [params: string]: any;
 }
-
+//头像框
 const AvatarView = ({ avatar }: { avatar: string }) => {
   const props = {
     name: 'file',
@@ -55,11 +56,28 @@ const AvatarView = ({ avatar }: { avatar: string }) => {
     </>
   );
 };
+
+const validatorPhone = (
+  rule: any,
+  value: string[],
+  callback: (message?: string) => void,
+) => {
+  if (!value[0]) {
+    callback('Please input your area code!');
+  }
+  if (!/^1(3|4|5|6|7|8|9)\d{9}$/.test(value[1]) || !value[1]) {
+    callback('Please input your phone number!');
+  }
+  callback();
+};
+
 const BaseView: React.FC<BaseViewProps> = (props) => {
   const { userInfo, loading } = props;
+
   const handleFinish = (e) => {
     console.log(e, 'ee');
   };
+
   const getAvatarURL = () => {
     if (userInfo) {
       if (userInfo.avatar) return userInfo.avatar;
@@ -68,6 +86,7 @@ const BaseView: React.FC<BaseViewProps> = (props) => {
     }
     return '';
   };
+
   return (
     <div className={styles.baseView}>
       {loading ? null : (
@@ -149,61 +168,85 @@ const BaseView: React.FC<BaseViewProps> = (props) => {
                   },
                 ]}
               />
-              {/* <ProForm.Group title="所在省市" size={8}>
-                                <ProFormSelect 
-                                    name="province"
-                                    width="sm"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: '请选择所在您的省市!',
-                                        }
-                                    ]}
-                                    fieldProps={({
-                                        labelInValue: true,
-                                    })}
-                                    request={ async() => {
-                                        let res = await queryProvince()
-                                        return res.data.map(item => {
-                                            return {
-                                                label: item.name,
-                                                value: item.id
-                                            }
-                                        })
-                                    }}
-                                />
-                                <ProFormDependency name={['province']} >
-                                    {({ province }) => {
-                                        console.log(province,'pp')
-                                        return (
-                                            <ProFormSelect 
-                                                name="city"
-                                                width="sm"
-                                                fieldProps={({
-                                                    labelInValue: true,
-                                                })}
-                                                rules={[
-                                                    {
-                                                      required: true,
-                                                      message: '请输入您的所在城市!',
-                                                    },
-                                                ]}
-                                                disable={!province}
-                                                request={ async () => {
-                                                    if(!province?.key) return [];
-                                                    let res = await queryCity(province?.key);
-                                                    return res.data.map(item => {
-                                                        return {
-                                                            label: item.name,
-                                                            value: item.id
-                                                        }
-                                                    })
-                                                }}
-                                            />
-                                        )
-                                    }}
-                                </ProFormDependency>
-                            </ProForm.Group> */}
+              <ProForm.Group title="所在省市" size={8}>
+                <ProFormSelect
+                  name="province"
+                  width="sm"
+                  rules={[
+                    {
+                      required: true,
+                      message: '请选择所在您的省市!',
+                    },
+                  ]}
+                  fieldProps={{
+                    labelInValue: true,
+                  }}
+                  request={async () => {
+                    let res = await queryProvince();
+                    return res.data.map((item) => {
+                      return {
+                        label: item.name,
+                        value: item.id,
+                      };
+                    });
+                  }}
+                />
+                <ProFormDependency name={['province']}>
+                  {({ province }: { province: any }) => {
+                    return (
+                      <ProFormSelect
+                        name="city"
+                        width="sm"
+                        fieldProps={{
+                          labelInValue: true,
+                        }}
+                        rules={[
+                          {
+                            required: true,
+                            message: '请输入您的所在城市!',
+                          },
+                        ]}
+                        disable={!province}
+                        request={async () => {
+                          if (!province?.key) return [];
+                          let res = await queryCity(province?.key);
+                          return res.data.map((item) => {
+                            return {
+                              label: item.name,
+                              value: item.id,
+                            };
+                          });
+                        }}
+                      />
+                    );
+                  }}
+                </ProFormDependency>
+              </ProForm.Group>
+              <ProFormText
+                width="md"
+                label="街道地址"
+                name="address"
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入您的街道地址!',
+                  },
+                ]}
+              />
+              <ProFormFieldSet
+                name="phone"
+                label="联系电话"
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入您的街道地址!',
+                  },
+                  { validator: validatorPhone },
+                ]}
+              >
+                <Input className={styles.area_code} />
+                <Input className={styles.phone_number} />
+              </ProFormFieldSet>
             </ProForm>
           </div>
           <div className={styles.right}>
