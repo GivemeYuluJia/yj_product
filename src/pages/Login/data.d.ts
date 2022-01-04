@@ -35,6 +35,7 @@ export type userInfoType = {
   phone?: string;
   sex?: string;
   school?: string;
+  schoolName?: string;
   email?: string;
   signature?: string;
   organization?: string;

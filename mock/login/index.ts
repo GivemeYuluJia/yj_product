@@ -8,7 +8,25 @@ let access =
 const getAccess = () => {
   return access;
 };
-
+//校验密码强弱
+const getPasswordStrength = (password: string) => {
+  //强
+  let strong = new RegExp(
+    '^(?=.{8,})(？=.*[A-Z])(？=.*[a-z])(?=.[0-9])(?=.*\\W).*$',
+    'g',
+  );
+  //中等
+  let medium = new RegExp(
+    '^(?=.{8,})(((？=.*[A-Z])(？=.*[a-z])) | ((?=.[0-9])(？=.*[A-Z])) | ((?=.[0-9])(？=.*[a-z])) | ((?=.[0-9])(?=.*\\W)) | ((?=.[a-z])(?=.*\\W)) | ((?=.[A-Z])(?=.*\\W))).*$',
+    'g',
+  );
+  //弱
+  let weak = new RegExp('^(?=.{8,}).*', 'g');
+  if (strong.test(password)) return 'strong';
+  if (medium.test(password)) return 'medium';
+  if (weak.test(password)) return 'weak';
+  return '';
+};
 const titles = ['清华大学', '北京大学', '福州理工学院'];
 const avatars = [
   //清华
@@ -23,11 +41,26 @@ export const userToken = [
     studentId: 1801126027,
     studentName: '马大葱',
     password: 'mj123456',
-    phone: 123456789,
+    phone: '13919980911',
+    school: ['福州理工学院', 'FIT'],
+    securityQuestion: [],
+    email: '911119191@qq.com',
+    MFA: '',
+    Binding: {
+      taobao: '',
+      dingding: '',
+      zhifubao: '',
+    },
+    Notification: {
+      pwdNotify: 1,
+      systemNotify: 1,
+      taskNotify: 1,
+    },
     yjToken: 'majundasha',
     currentAuthority: 'user',
   },
 ];
+
 const userList = [
   {
     userid: '00000001',
@@ -38,6 +71,7 @@ const userList = [
     phone: '86-13999999997',
     sex: '男',
     school: '福州理工学院',
+    schoolName: 'FIT',
     email: '123456789@qq.com',
     signature: 'emo小王子马大葱是也',
     organization: '18级物联网工程二班',
@@ -178,6 +212,94 @@ export default {
   },
   // 头像修改
   'POST /api/account/updateAvatar': async (req: Request, res: Response) => {
+    res.send({
+      status: 'ok',
+      success: true,
+    });
+  },
+  'POST /api/account/updateCurrentUserInfo': async (
+    req: Request,
+    res: Response,
+  ) => {
+    const {
+      address,
+      country,
+      email,
+      geographic,
+      phone,
+      signature,
+      studentName,
+    } = req.body;
+    const { token } = req.headers;
+    //校验token是否过期
+    // if(...){
+    //   res.send({
+    //     status: 'token过期',
+    //     success: false,
+    //   })
+    // }
+    let studentId: number;
+    userToken.forEach((item) => {
+      if (item.yjToken === token) {
+        studentId = item.studentId;
+      }
+    });
+    let userItem = userList.filter((item) => studentId === item.studentId);
+    userItem.length === 0 &&
+      res.send({
+        success: false,
+        status: 'error',
+        data: '',
+      });
+    userList.map((item) => {
+      if (studentId === item.studentId) {
+        item.address = address;
+        item.country = country;
+        item.email = email;
+        item.geographic = geographic;
+        (item.phone = phone),
+          (item.signature = signature),
+          (item.studentName = studentName);
+      }
+    });
+    res.send({
+      status: 'ok',
+      success: true,
+      data: userList.filter((item) => studentId === item.studentId)[0],
+    });
+  },
+  //消息通知 设置修改 Notification
+  'POST /api/account/updateNotification': async (
+    req: Request,
+    res: Response,
+  ) => {
+    const { token } = req.headers;
+
+    //校验token是否过期
+    // if(...){
+    //   res.send({
+    //     status: 'token过期',
+    //     success: false,
+    //   })
+    // }
+    userToken.map((item) => {
+      if (item.yjToken === token) {
+        // if(!pwdNotify) pwdNotify = item.Notification.pwdNotify;
+        // if(!systemNotify) systemNotify = item.Notification.systemNotify;
+        // if(!taskNotify) taskNotify = item.Notification.taskNotify;
+        const {
+          pwdNotify = item.Notification.pwdNotify,
+          systemNotify = item.Notification.systemNotify,
+          taskNotify = item.Notification.taskNotify,
+        } = req.body;
+        item.Notification = {
+          ...item.Notification,
+          pwdNotify,
+          systemNotify,
+          taskNotify,
+        };
+      }
+    });
     res.send({
       status: 'ok',
       success: true,

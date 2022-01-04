@@ -9,13 +9,20 @@ import { history, connect, Link, Dispatch } from 'umi';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import logo from '@/assets/Layout/logo.png';
-import { SmileOutlined, HeartOutlined } from '@ant-design/icons';
+import {
+  SmileOutlined,
+  HeartOutlined,
+  UserOutlined,
+  HomeOutlined,
+} from '@ant-design/icons';
 import { userInfoType } from '@/pages/Login/data';
 import { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { MenuListType } from '../models/Menu';
 const IconMap = {
+  home: <HomeOutlined />,
   smile: <SmileOutlined />,
   heart: <HeartOutlined />,
+  user: <UserOutlined />,
 };
 interface BasicLayoutProps extends ProLayoutProps {
   userInfo: userInfoType;
@@ -74,12 +81,14 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         disableMobile={false}
         onMenuHeaderClick={() => history.push(`/`)}
         menuItemRender={(menuItemProps, defaultDom) => {
+          // console.log(menuItemProps, defaultDom,'render')
           if (menuItemProps.isUrl || !menuItemProps.path) {
             return defaultDom;
           }
           return <Link to={menuItemProps.path}>- {defaultDom}</Link>;
         }}
         postMenuData={(menuData) => {
+          // console.log(menuData,'123')
           menDateRef.current = menuData || [];
           return loopMenuItem(menuList || []) || [];
         }}

@@ -1,4 +1,5 @@
 import account from './account';
+import home from './home';
 export default [
   {
     path: '/',
@@ -12,9 +13,9 @@ export default [
         path: '/',
         component: '../layouts/BasicLayout',
         routes: [
-          { path: '/', redirect: '/account' },
+          { path: '/', redirect: '/home' },
+          ...home,
           ...account,
-
           {
             component: './404',
           },

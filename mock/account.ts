@@ -1,6 +1,25 @@
 import { Request, Response } from 'express';
 import { userToken } from './login';
 
+//校验密码强弱
+const getPasswordStrength = (password: string) => {
+  //强
+  let strong = new RegExp(
+    '^(?=.{8,})(？=.*[A-Z])(？=.*[a-z])(?=.[0-9])(?=.*\\W).*$',
+    'g',
+  );
+  //中等
+  let medium = new RegExp(
+    '^(?=.{8,})(((？=.*[A-Z])(？=.*[a-z])) | ((?=.[0-9])(？=.*[A-Z])) | ((?=.[0-9])(？=.*[a-z])) | ((?=.[0-9])(?=.*\\W)) | ((?=.[a-z])(?=.*\\W)) | ((?=.[A-Z])(?=.*\\W))).*$',
+    'g',
+  );
+  //弱
+  let weak = new RegExp('^(?=.{8,}).*', 'g');
+  if (strong.test(password)) return 'strong';
+  if (medium.test(password)) return 'medium';
+  if (weak.test(password)) return 'weak';
+  return '';
+};
 const userMoment = [
   {
     studentId: 1801126027,
@@ -88,6 +107,48 @@ export default {
       : res.send({
           status: 'err',
           success: false,
+          data: '',
+        });
+  },
+  //用户安全设置信息
+  'POST /api/account/SecurityInfo': async (req: Request, res: Response) => {
+    const { token } = req.headers;
+    //校验token是否过期
+    // if(...){
+    //   res.send({
+    //     status: 'token过期',
+    //     success: false,
+    //   })
+    // }
+    let security = userToken.filter((item) => item.yjToken === token)[0];
+    let passwordStrength = getPasswordStrength(security.password);
+    let phone =
+      security.phone &&
+      security.phone.slice(0, 3) + '****' + security.phone.slice(7);
+    let email =
+      security.email &&
+      security.email.slice(0, 3) + '****' + security.email.slice(8);
+    security
+      ? res.send({
+          success: true,
+          status: 'ok',
+          data: {
+            pwds: passwordStrength,
+            phone,
+            securityQuestion: security.securityQuestion.length && 1,
+            email,
+            MFA: security.MFA ? 1 : 0,
+            binding: {
+              dingding: security.Binding.dingding ? 1 : 0,
+              taobao: security.Binding.taobao ? 1 : 0,
+              zhifubao: security.Binding.zhifubao ? 1 : 0,
+            },
+            notification: security.Notification,
+          },
+        })
+      : res.send({
+          success: false,
+          status: 'error',
           data: '',
         });
   },

@@ -243,14 +243,14 @@ const AccountCenter: React.FC<AccountCenterProps> = (props) => {
   );
 };
 export default connect(
-  ({ login, account }: any) => ({
+  ({ login, accountCenter }: any) => ({
     userInfo: login.userInfo,
     loading: login.loading,
-    momentList: account.momentList,
+    momentList: accountCenter.momentList,
   }),
   (dispatch: any) => ({
     updateTag: (params: TagType) =>
       dispatch({ type: `login/updateTag`, payload: params }),
-    getMomentList: () => dispatch({ type: `account/getMomentList` }),
+    getMomentList: () => dispatch({ type: `accountCenter/getMomentList` }),
   }),
 )(AccountCenter);

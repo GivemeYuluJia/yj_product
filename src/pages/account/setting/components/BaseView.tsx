@@ -18,6 +18,7 @@ import styles from './BaseView.less';
 export interface BaseViewProps {
   userInfo: userInfoType;
   loading: boolean;
+  updateCurrentUserInfo: (params: userInfoType) => any;
   [params: string]: any;
 }
 //头像框
@@ -72,10 +73,35 @@ const validatorPhone = (
 };
 
 const BaseView: React.FC<BaseViewProps> = (props) => {
-  const { userInfo, loading } = props;
-
-  const handleFinish = (e) => {
-    console.log(e, 'ee');
+  const { userInfo, loading, updateCurrentUserInfo } = props;
+  const [btnLoading, setBtnLoading] = useState(false);
+  const handleFinish = async (e) => {
+    setBtnLoading(true);
+    let params = {
+      ...e,
+      phone: e.phone.join('-'),
+      geographic: {
+        province: {
+          label: e.province.label,
+          key: e.province.key,
+        },
+        city: {
+          label: e.city.label,
+          key: e.city.key,
+        },
+      },
+    };
+    delete params['province'];
+    delete params['city'];
+    let res = await updateCurrentUserInfo(params);
+    if (res.success) {
+      message.success('更新基本信息成功');
+    } else {
+      message.error(res.status);
+    }
+    setTimeout(() => {
+      setBtnLoading(false);
+    }, 2000);
   };
 
   const getAvatarURL = () => {
@@ -112,9 +138,10 @@ const BaseView: React.FC<BaseViewProps> = (props) => {
                     display: 'none',
                   },
                 },
-                // submitButtonProps: {
-                //   children: '更新基本信息',
-                // },
+                submitButtonProps: {
+                  children: '更新基本信息',
+                  loading: btnLoading,
+                },
               }}
               hideRequiredMark
             >
@@ -195,6 +222,9 @@ const BaseView: React.FC<BaseViewProps> = (props) => {
                   {({ province }: { province: any }) => {
                     return (
                       <ProFormSelect
+                        params={{
+                          key: province?.value,
+                        }}
                         name="city"
                         width="sm"
                         fieldProps={{
@@ -206,7 +236,7 @@ const BaseView: React.FC<BaseViewProps> = (props) => {
                             message: '请输入您的所在城市!',
                           },
                         ]}
-                        disable={!province}
+                        disabled={!province}
                         request={async () => {
                           if (!province?.key) return [];
                           let res = await queryCity(province?.key);
@@ -257,7 +287,13 @@ const BaseView: React.FC<BaseViewProps> = (props) => {
     </div>
   );
 };
-export default connect(({ login }: any) => ({
-  userInfo: login.userInfo,
-  loading: login.loading,
-}))(BaseView);
+export default connect(
+  ({ login }: any) => ({
+    userInfo: login.userInfo,
+    loading: login.loading,
+  }),
+  (dispatch) => ({
+    updateCurrentUserInfo: (params: userInfoType) =>
+      dispatch({ type: 'login/updateCurrentUserInfo', payload: params }),
+  }),
+)(BaseView);

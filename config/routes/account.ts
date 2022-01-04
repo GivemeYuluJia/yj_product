@@ -2,7 +2,7 @@ export default [
   {
     path: '/account',
     name: '个人页面',
-    icon: 'smile',
+    icon: 'user',
     routes: [
       {
         path: '/account',

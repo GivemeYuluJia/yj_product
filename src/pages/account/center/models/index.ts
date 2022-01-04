@@ -1,7 +1,7 @@
 import { Reducer, Effect } from 'umi';
 import { MomentType } from '../data';
 import { getMomentList } from '../service';
-export const NAMESPACE = 'account';
+export const NAMESPACE = 'accountCenter';
 interface AccountState {
   momentList: Array<MomentType>;
 }
