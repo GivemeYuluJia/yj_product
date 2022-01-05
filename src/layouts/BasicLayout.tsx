@@ -93,15 +93,19 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           return loopMenuItem(menuList || []) || [];
         }}
       >
-        <PageContainer
-          ghost
-          header={{
-            title: null,
-            onBack: () => null,
-          }}
-        >
-          {children}
-        </PageContainer>
+        {props.location?.pathname !== '/home/school' ? (
+          <PageContainer
+            ghost
+            header={{
+              title: null,
+              onBack: () => null,
+            }}
+          >
+            {children}
+          </PageContainer>
+        ) : (
+          children
+        )}
       </ProLayout>
     </ConfigProvider>
   );

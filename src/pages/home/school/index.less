@@ -1,0 +1,103 @@
+@import '~antd/es/style/themes/default.less';
+
+.pageHeaderContent {
+  position: relative;
+  display: flex;
+  > .avatar {
+    flex: 0 1 72px;
+    & > span {
+      display: block;
+      width: 72px;
+      height: 72px;
+      border-radius: 72px;
+    }
+  }
+  > .content {
+    position: relative;
+    top: 4px;
+    flex: 1 1 auto;
+    margin-left: 24px;
+    color: @text-color-secondary;
+    line-height: 22px;
+    > .contentTitle {
+      color: @heading-color;
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      line-height: 28px;
+    }
+  }
+  > .contentButton {
+    position: absolute;
+    right: 1px;
+  }
+}
+
+.extraContent {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  .statItem {
+    white-space: nowrap;
+    flex: 1;
+    padding: 0 16px;
+    :global {
+      .ant-statistic-content-value,
+      .ant-statistic-content-suffix,
+      .ant-statistic-content {
+        font-size: 14px;
+      }
+    }
+  }
+}
+//992 -1200
+@media screen and (min-width: @screen-lg) and (max-width: @screen-xl) {
+  .extraContent {
+    margin-left: -44px;
+  }
+}
+//小于992
+@media screen and (max-width: @screen-lg) {
+  .extraContent {
+    margin-right: 0;
+  }
+}
+//小于768
+@media screen and (max-width: @screen-md) {
+  .extraContent {
+    padding-top: 5px;
+    margin-left: -10px;
+  }
+}
+//小于576
+@media screen and (max-width: @screen-sm) {
+  // .pageHeaderContent {
+  //     .contentButton {
+  //         // bottom: 32px;
+  //     }
+  //     // :global {
+  //     //     .ant-btn {
+  //     //         display: none;
+  //     //     }
+  //     // }
+
+  // }
+}
+//小于455
+@media screen and (max-width: 455px) {
+  .pageHeaderContent {
+    display: block;
+    .avatar {
+      text-align: center;
+    }
+    .content {
+      margin-left: 0;
+      .contentTitle {
+        margin-bottom: 12px;
+      }
+    }
+    .contentButton {
+      top: 32px;
+    }
+  }
+}
