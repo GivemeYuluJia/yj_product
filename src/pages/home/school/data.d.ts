@@ -1,5 +1,10 @@
 import { GeographicType } from '../../account/center/data';
 
+export type EditableLink = {
+  title: string;
+  href: string;
+  id?: string;
+};
 export type SchoolInfoType = {
   schoolName?: string;
   abbreviation?: string;
@@ -25,4 +30,9 @@ export type SchoolInfoType = {
     province?: string | number;
     city?: string | number;
   };
+  schoolLink?: EditableLink[];
+};
+
+export type schoolLinkMapType = {
+  [params: string]: EditableLink;
 };

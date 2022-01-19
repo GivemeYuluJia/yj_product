@@ -133,6 +133,35 @@ const userList = [
       },
     },
     address: '马家村马小马路 1 号',
+    link: {
+      school: [
+        {
+          //校园建筑
+          title: 'Architecture',
+          href: '',
+        },
+        {
+          //  校园荣誉
+          title: 'Honor',
+          href: '',
+        },
+        {
+          //  校园墙
+          title: 'Wall',
+          href: '',
+        },
+        {
+          //  校园社团
+          title: 'Club',
+          href: '',
+        },
+        {
+          //  校园部门
+          title: 'Departments',
+          href: '',
+        },
+      ],
+    },
   },
 ];
 

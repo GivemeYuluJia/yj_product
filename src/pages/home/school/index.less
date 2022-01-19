@@ -1,5 +1,12 @@
 @import '~antd/es/style/themes/default.less';
 
+.textOverflow() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
 .pageHeaderContent {
   position: relative;
   display: flex;
@@ -50,10 +57,62 @@
     }
   }
 }
+
+.activityList {
+  :global {
+    .ant-card-meta-description {
+      height: 44px;
+      line-height: 22px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: @text-color-secondary;
+    }
+  }
+  .cardTitle {
+    font-size: 0;
+    a {
+      display: inline-block;
+      height: 24px;
+      line-height: 24px;
+      font-size: @font-size-base;
+      color: @heading-color;
+      vertical-align: top;
+      margin-left: 10px;
+      &:hover {
+        color: @primary-color;
+      }
+    }
+  }
+  .activityGrid {
+    width: 33.33%;
+  }
+  .activityContent {
+    display: flex;
+    height: 20px;
+    line-height: 20px;
+    margin-top: 8px;
+    justify-content: space-between;
+    font-size: 12px;
+    .textOverflow();
+    a {
+      flex: 1 1 0;
+      color: @text-color-secondary;
+      .textOverflow();
+      &:hover {
+        color: @primary-color;
+      }
+    }
+    .datetime {
+      flex: 0 1 auto;
+      color: @disabled-color;
+    }
+  }
+}
+
 //992 -1200
 @media screen and (min-width: @screen-lg) and (max-width: @screen-xl) {
   .extraContent {
-    margin-left: -44px;
+    // margin-left: -30px;
   }
 }
 //小于992
@@ -67,6 +126,11 @@
   .extraContent {
     padding-top: 5px;
     margin-left: -10px;
+  }
+  .activityList {
+    .activityGrid {
+      width: 50%;
+    }
   }
 }
 //小于576
@@ -98,6 +162,14 @@
     }
     .contentButton {
       top: 32px;
+    }
+  }
+  .activityList {
+    :global {
+      .ant-card-grid {
+        padding: 12px;
+        padding-top: 18px;
+      }
     }
   }
 }

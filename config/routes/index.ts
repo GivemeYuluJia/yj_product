@@ -1,5 +1,7 @@
 import account from './account';
 import home from './home';
+import activity from './activity';
+
 export default [
   {
     path: '/',
@@ -15,6 +17,7 @@ export default [
         routes: [
           { path: '/', redirect: '/home' },
           ...home,
+          ...activity,
           ...account,
           {
             component: './404',

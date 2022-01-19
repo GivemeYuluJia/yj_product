@@ -27,6 +27,11 @@ type GeographicType = {
     key: string;
   };
 };
+export type EditableLink = {
+  title: string;
+  href: string;
+  id?: string;
+};
 export type userInfoType = {
   userid?: string;
   studentId?: number;
@@ -46,4 +51,7 @@ export type userInfoType = {
   country?: string;
   geographic?: GeographicType;
   address?: string;
+  link?: {
+    school: EditableLink[];
+  };
 };

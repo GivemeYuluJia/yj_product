@@ -9,21 +9,11 @@ import { history, connect, Link, Dispatch } from 'umi';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import logo from '@/assets/Layout/logo.png';
-import {
-  SmileOutlined,
-  HeartOutlined,
-  UserOutlined,
-  HomeOutlined,
-} from '@ant-design/icons';
 import { userInfoType } from '@/pages/Login/data';
 import { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { MenuListType } from '../models/Menu';
-const IconMap = {
-  home: <HomeOutlined />,
-  smile: <SmileOutlined />,
-  heart: <HeartOutlined />,
-  user: <UserOutlined />,
-};
+import { IconMap } from '@/components/IconMap';
+
 interface BasicLayoutProps extends ProLayoutProps {
   userInfo: userInfoType;
   settings: LayoutSettings & {

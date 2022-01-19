@@ -13,6 +13,17 @@ const menuList = [
     ],
   },
   {
+    path: '/activity',
+    name: '活动页',
+    icon: 'fire',
+    children: [
+      {
+        path: '/activity/campusActivity',
+        name: '校园活动',
+      },
+    ],
+  },
+  {
     path: '/account',
     name: '个人页面',
     icon: 'user',

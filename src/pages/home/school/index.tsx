@@ -10,30 +10,29 @@ import {
   Col,
   Button,
   Card,
+  Image,
 } from 'antd';
+import EditableLinkGroup from './components/EditableLinkGroup';
 import { userInfoType } from '@/pages/Login/data';
 import { SchoolInfoType } from './data';
+import moment from 'moment';
 
 import styles from './index.less';
 
 interface SchoolViewType {
   userInfo: userInfoType;
   schoolInfo: SchoolInfoType;
+  loading: boolean;
   getSchoolInfo: () => any;
   [params: string]: any;
 }
-const schoolMap = {
-  //   FIT: <FIT />,
-  //   PKU: <PKU />,
-};
-// 获取时间
+
+// 获取时间对应的title
 const getTitle = (hours: number, school: string | undefined) => {
   return hours < 6
     ? `凌晨了, ${school}学子, 该睡觉了`
-    : hours < 9
-    ? `早安, ${school}学子, 祝你开心每一天`
     : hours < 12
-    ? `上午好, ${school}学子, 祝你学习顺利`
+    ? `早安, ${school}学子, 祝你开心每一天`
     : hours < 14
     ? `中午好, ${school}学子, 祝你开心每一天`
     : hours < 17
@@ -133,17 +132,70 @@ const ExtraContent: React.FC<{ extraInfo: Partial<SchoolInfoType> }> = ({
 };
 
 const SchoolView: React.FC<SchoolViewType> = (props) => {
-  const { schoolInfo, userInfo, getSchoolInfo } = props;
+  const { schoolInfo, userInfo, loading, getSchoolInfo } = props;
+  //   const { school } = userInfo.link;
   useEffect(() => {
     getSchoolInfo().catch((err: any) => {
       message.error(err.status);
     });
   }, []);
+
   return (
     <PageContainer content={<PageHeaderContent schoolInfo={schoolInfo} />}>
       <Row gutter={24}>
         <Col xl={16} lg={24} md={24} sm={24} xs={24}>
-          <Card></Card>
+          <Card
+            className={styles.activityList}
+            style={{ marginBottom: 24 }}
+            title="校园活动"
+            extra={
+              <Link
+                to={{
+                  pathname: '/activity',
+                }}
+              >
+                全部活动
+              </Link>
+            }
+            loading={loading}
+            bordered={false}
+            // bodyStyle={{ padding: 0 }}
+          >
+            {schoolInfo.activity?.map((item) => (
+              <Card.Grid key={item.id} className={styles.activityGrid}>
+                <Card bordered={false}>
+                  <Card.Meta
+                    title={
+                      <div className={styles.cardTitle}>
+                        <Avatar
+                          size="small"
+                          src={<Image src={item.logo} style={{ width: 32 }} />}
+                        />
+                        <Link to="/">{item.title}</Link>
+                      </div>
+                    }
+                    description={item.name}
+                  />
+                  <div className={styles.activityContent}>
+                    <Link to="/">{item.loaction}</Link>
+                    {item.updatedAt && (
+                      <span className={styles.datetime} title={item.updatedAt}>
+                        {moment(item.updatedAt).fromNow()}
+                      </span>
+                    )}
+                  </div>
+                </Card>
+              </Card.Grid>
+            ))}
+          </Card>
+        </Col>
+        <Col xl={8} lg={24} md={24} sm={24} xs={24}>
+          <Card title="快速导航" bodyStyle={{ padding: 0 }}>
+            <EditableLinkGroup
+              sLinks={schoolInfo.schoolLink}
+              links={userInfo?.link?.school}
+            />
+          </Card>
         </Col>
       </Row>
     </PageContainer>
