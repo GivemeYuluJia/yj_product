@@ -13,6 +13,11 @@ export default [
         name: '校园活动',
         component: './activity/campusActivity',
       },
+      {
+        name: '活动详情',
+        path: '/activity/campusActivity/detail/:detailid?',
+        component: './activity/campusActivity/detail/index.tsx',
+      },
     ],
   },
 ];

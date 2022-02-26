@@ -8,6 +8,7 @@ const Item = (props) => {
   const { type, form } = props;
   const [timeContral, setTimeContral] = useState(-1);
   const [btnloading, setBtnloading] = useState(false);
+
   const validatePhone = (rule, value, callback) => {
     if (!/^1(3|4|5|6|7|8|9)\d{9}$/.test(value) || !value) {
       callback('请输入正确的手机号!');

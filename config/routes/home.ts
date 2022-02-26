@@ -13,10 +13,16 @@ export default [
         name: '校园总览',
         component: './home/school',
       },
-      // {
-      //   path: '/home/school/FIT',
-      //   component: './home/school/fit',
-      // },
+      {
+        path: '/home/campusNews',
+        name: '校园新闻',
+        component: './home/campusNews',
+      },
+      {
+        path: '/home/campusNews/:newsdetailid?',
+        name: '新闻详情',
+        component: './home/campusNews/detail',
+      },
     ],
   },
 ];

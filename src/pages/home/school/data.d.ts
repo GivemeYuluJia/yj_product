@@ -5,6 +5,12 @@ export type EditableLink = {
   href: string;
   id?: string;
 };
+export type SchoolNewsType = {
+  id: string;
+  updatedAt: Date;
+  title: string;
+  template: string;
+};
 export type SchoolInfoType = {
   schoolName?: string;
   abbreviation?: string;
@@ -13,6 +19,8 @@ export type SchoolInfoType = {
   country?: string;
   geographic?: GeographicType;
   activity?: any[];
+  news?: SchoolNewsType[];
+  radarOriginData?: any[];
   rank?: {
     global?: string | number;
     country?: string | number;

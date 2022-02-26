@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { connect, history, Link } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import {
@@ -11,10 +11,12 @@ import {
   Button,
   Card,
   Image,
+  List,
 } from 'antd';
+import { Radar } from '@ant-design/charts';
 import EditableLinkGroup from './components/EditableLinkGroup';
 import { userInfoType } from '@/pages/Login/data';
-import { SchoolInfoType } from './data';
+import { SchoolInfoType, SchoolNewsType } from './data';
 import moment from 'moment';
 
 import styles from './index.less';
@@ -40,6 +42,30 @@ const getTitle = (hours: number, school: string | undefined) => {
     : hours < 21
     ? `晚安, ${school}学子, 祝你有个好梦`
     : `夜深了, ${school}学子, 还在内卷？`;
+};
+// 校园指数
+const getRadarData = (radarOriginData: any) => {
+  const radarTitleMap: any = {
+    ref: '引用',
+    koubei: '口碑',
+    output: '产量',
+    contribute: '贡献',
+    hot: '热度',
+  };
+  let radarArr: any[] = [];
+  radarOriginData &&
+    radarOriginData.forEach((item: any) => {
+      Object.keys(item).forEach((key) => {
+        if (key !== 'name') {
+          radarArr.push({
+            name: item.name,
+            label: radarTitleMap[key],
+            value: item[key],
+          });
+        }
+      });
+    });
+  return radarArr;
 };
 
 const PageHeaderContent: React.FC<{ schoolInfo: SchoolInfoType }> = ({
@@ -133,12 +159,34 @@ const ExtraContent: React.FC<{ extraInfo: Partial<SchoolInfoType> }> = ({
 
 const SchoolView: React.FC<SchoolViewType> = (props) => {
   const { schoolInfo, userInfo, loading, getSchoolInfo } = props;
+  const { radarOriginData } = schoolInfo;
+
   //   const { school } = userInfo.link;
-  useEffect(() => {
-    getSchoolInfo().catch((err: any) => {
-      message.error(err.status);
-    });
-  }, []);
+  const radarData = useMemo(() => {
+    return getRadarData(radarOriginData);
+  }, [radarOriginData]);
+
+  const renderNews = (item: SchoolNewsType) => {
+    return (
+      <List.Item key={item.id}>
+        <List.Item.Meta
+          avatar={<Avatar src={schoolInfo.avatar} />}
+          title={
+            <span>
+              <a className={styles.title} href={`/home/news/`}>
+                {item.title}
+              </a>
+            </span>
+          }
+          description={
+            <span className={styles.datetime}>
+              {moment(item.updatedAt).fromNow()}
+            </span>
+          }
+        />
+      </List.Item>
+    );
+  };
 
   return (
     <PageContainer content={<PageHeaderContent schoolInfo={schoolInfo} />}>
@@ -171,7 +219,9 @@ const SchoolView: React.FC<SchoolViewType> = (props) => {
                           size="small"
                           src={<Image src={item.logo} style={{ width: 32 }} />}
                         />
-                        <Link to="/">{item.title}</Link>
+                        <Link to={`/activity/detail/${item.id}`}>
+                          {item.title}
+                        </Link>
                       </div>
                     }
                     description={item.name}
@@ -188,26 +238,72 @@ const SchoolView: React.FC<SchoolViewType> = (props) => {
               </Card.Grid>
             ))}
           </Card>
+          <Card
+            bodyStyle={{ padding: 0 }}
+            bordered={false}
+            className={styles.activeCard}
+            title="新闻"
+            loading={loading}
+            extra={
+              <Link
+                to={{
+                  pathname: '/home/campusNews',
+                }}
+              >
+                全部新闻
+              </Link>
+            }
+          >
+            <List
+              loading={loading}
+              renderItem={(item) => renderNews(item)}
+              dataSource={schoolInfo.news}
+              className={styles.newsList}
+              size="large"
+            />
+          </Card>
         </Col>
         <Col xl={8} lg={24} md={24} sm={24} xs={24}>
-          <Card title="快速导航" bodyStyle={{ padding: 0 }}>
+          <Card
+            title="快速导航"
+            bodyStyle={{ padding: 0 }}
+            style={{ marginBottom: 24 }}
+          >
             <EditableLinkGroup
               sLinks={schoolInfo.schoolLink}
               links={userInfo?.link?.school}
             />
+          </Card>
+          <Card
+            style={{ marginBottom: 24 }}
+            bordered={false}
+            title="校园 指数"
+            loading={radarData?.length === 0}
+          >
+            <div className={styles.chart}>
+              <Radar
+                height={343}
+                data={radarData || []}
+                xField="label"
+                seriesField="name"
+                yField="value"
+                // 开启辅助点
+                point={{
+                  size: 2,
+                }}
+                legend={{
+                  position: 'bottom',
+                }}
+              />
+            </div>
           </Card>
         </Col>
       </Row>
     </PageContainer>
   );
 };
-export default connect(
-  ({ login, school }: any) => ({
-    userInfo: login.userInfo,
-    schoolInfo: school.schoolInfo,
-    school,
-  }),
-  (dispatch: any) => ({
-    getSchoolInfo: () => dispatch({ type: 'school/getSchoolInfo' }),
-  }),
-)(SchoolView);
+export default connect(({ login, school }: any) => ({
+  userInfo: login.userInfo,
+  schoolInfo: school.schoolInfo,
+  school,
+}))(SchoolView);

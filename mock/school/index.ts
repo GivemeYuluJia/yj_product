@@ -118,6 +118,53 @@ const schoolActivity = {
     },
   ],
 };
+const schoolNews = {
+  FIT: [
+    {
+      id: 'FIT-N-0001',
+      updatedAt: new Date('2022-2-19 10:19:35'),
+      title:
+        '福州理工学院组织收看2022年全省教育工作会议和 春季学期开学工作部署会',
+      template: '',
+    },
+    {
+      id: 'FIT-N-0002',
+      updatedAt: new Date('2022-2-14 10:19:35'),
+      title: '福州理工学院召开2021-2022学年第二学期期初学生工作会议',
+      template: '',
+    },
+    {
+      id: 'FIT-N-0003',
+      updatedAt: new Date('2022-1-22 10:19:35'),
+      title: '福州理工学院成功举办2021-2022学年辅导员冬令营暨 党支部书记培训班',
+      template: '',
+    },
+    {
+      id: 'FIT-N-0004',
+      updatedAt: new Date('2022-2-21 10:19:35'),
+      title: '福州理工学院吴贵明校长一行莅临严复翰墨馆参观',
+      template: '',
+    },
+    {
+      id: 'FIT-N-0005',
+      updatedAt: new Date('2022-1-20 10:19:35'),
+      title: '福州理工学院召开党史学习教育 专题民主生活会',
+      template: '',
+    },
+    {
+      id: 'FIT-N-0006',
+      updatedAt: new Date('2022-1-20 08:19:35'),
+      title: '福州理工学院召开党史学习教育 专题民主生活会',
+      template: '',
+    },
+    {
+      id: 'FIT-N-0007',
+      updatedAt: new Date('2022-1-19 10:19:35'),
+      title: '福州理工学院召开党史学习教育总结大会',
+      template: '',
+    },
+  ],
+};
 const schoolLink = [
   {
     //校园建筑
@@ -150,6 +197,7 @@ const schoolLink = [
     href: '',
   },
 ];
+
 const schoolList = {
   FIT: {
     schoolName: '福州理工学院',
@@ -168,6 +216,36 @@ const schoolList = {
       },
     },
     activity: schoolActivity['FIT'].slice(0, 6),
+    news: schoolNews['FIT'].slice(0, 6).map((item) => {
+      item['template'] = '';
+      return item;
+    }),
+    radarOriginData: [
+      {
+        name: '学生',
+        ref: 10,
+        koubei: 8,
+        output: 4,
+        contribute: 5,
+        hot: 7,
+      },
+      {
+        name: '团队',
+        ref: 3,
+        koubei: 9,
+        output: 6,
+        contribute: 3,
+        hot: 1,
+      },
+      {
+        name: '校园',
+        ref: 4,
+        koubei: 1,
+        output: 6,
+        contribute: 5,
+        hot: 7,
+      },
+    ],
     rank: {
       global: 46000,
       country: 1511,
@@ -227,6 +305,81 @@ export default {
         number,
         schoolLink,
       },
+    });
+  },
+  'POST /api/getSchoolActivityList': async (req: Request, res: Response) => {
+    const { token } = req.headers;
+    let school: string, activityList: any;
+    userToken.forEach((item) => {
+      if (item.yjToken === token) {
+        school = item.school[1];
+        activityList = schoolActivity[school as string];
+      }
+    });
+    console.log(activityList);
+    activityList = activityList.map((item) => {
+      let date = new Date();
+      let Endtime = item.updatedAt.getTime() + 7200000;
+      if (date >= item.applyAt && date < item.updatedAt) {
+        item.state = '报名中';
+      } else if (date > item.updatedAt && date <= new Date(Endtime)) {
+        item.state = '进行中';
+      } else if (date > new Date(Endtime)) {
+        item.state = '已结束';
+      }
+      return item;
+    });
+    res.send({
+      status: 'ok',
+      success: true,
+      data: activityList,
+    });
+  },
+  'GET /api/getSchoolActivityItem': async (req: Request, res: Response) => {
+    const { token } = req.headers;
+    const { id } = req.query;
+    let school: string, activityList: any;
+    userToken.forEach((item) => {
+      if (item.yjToken === token) {
+        school = item.school[1];
+        activityList = schoolActivity[school as string];
+      }
+    });
+    console.log(activityList);
+    activityList = activityList.filter((item) => {
+      if (item.id === id) {
+        let date = new Date();
+        let Endtime = item.updatedAt.getTime() + 7200000;
+        if (date >= item.applyAt && date < item.updatedAt) {
+          item.state = '报名中';
+        } else if (date > item.updatedAt && date <= new Date(Endtime)) {
+          item.state = '进行中';
+        } else if (date > new Date(Endtime)) {
+          item.state = '已结束';
+        }
+        return item;
+      }
+    });
+    res.send({
+      status: 'ok',
+      success: true,
+      data: activityList,
+    });
+  },
+  'POST /api/getSchoolNewsList': async (req: Request, res: Response) => {
+    const { token } = req.headers;
+    let school: string, newsList: any;
+    userToken.forEach((item) => {
+      if (item.yjToken === token) {
+        school = item.school[1];
+        newsList = schoolNews[school as string];
+      }
+    });
+
+    res.send({
+      status: 'ok',
+      success: true,
+      data: newsList,
     });
   },
 };

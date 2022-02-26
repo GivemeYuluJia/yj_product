@@ -1,0 +1,26 @@
+@import '~antd/es/style/themes/default.less';
+.ActivityCardList {
+  margin-bottom: -24px;
+  margin-bottom: -24px;
+  .activityTime {
+    overflow: hidden;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 500;
+    font-size: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  :global {
+    .ant-card-meta-content {
+      margin-top: 0;
+    }
+    // disabled white space
+    .ant-card-meta-avatar {
+      font-size: 0;
+    }
+
+    .ant-list .ant-list-item-content-single {
+      max-width: 100%;
+    }
+  }
+}

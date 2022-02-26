@@ -6,11 +6,13 @@ import ProLayout, {
 } from '@ant-design/pro-layout';
 import React, { useState, useEffect, useRef } from 'react';
 import { history, connect, Link, Dispatch } from 'umi';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, message } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import logo from '@/assets/Layout/logo.png';
+import RightContent from '@/components/RightContent';
 import { userInfoType } from '@/pages/Login/data';
 import { Settings as LayoutSettings } from '@ant-design/pro-layout';
+import { SchoolInfoType } from '@/pages/home/school/data';
 import { MenuListType } from '../models/Menu';
 import { IconMap } from '@/components/IconMap';
 
@@ -21,16 +23,23 @@ interface BasicLayoutProps extends ProLayoutProps {
     logo?: string;
   };
   menuList: Array<MenuListType>;
+  schoolInfo: SchoolInfoType;
   dispatch: Dispatch;
 }
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
-  const { userInfo, settings, menuList, dispatch, children } = props;
+  const { userInfo, settings, menuList, schoolInfo, dispatch, children } =
+    props;
 
   const menDateRef = useRef<MenuDataItem[]>([]);
 
   useEffect(() => {
     if (!userInfo.userid) {
       dispatch({ type: 'login/getCurrentUser' });
+    }
+    if (!schoolInfo.schoolName) {
+      dispatch({ type: 'school/getSchoolInfo' }).catch((err: any) => {
+        message.error(err.status);
+      });
     }
     dispatch({ type: 'menu/getMenuList' });
   }, []);
@@ -67,6 +76,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         //       },
         //     ]),
         // }}
+        rightContentRender={() => <RightContent />}
         disableContentMargin={false}
         disableMobile={false}
         onMenuHeaderClick={() => history.push(`/`)}
@@ -100,8 +110,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     </ConfigProvider>
   );
 };
-export default connect(({ login, menu }: any) => ({
+export default connect(({ login, menu, school }: any) => ({
   userInfo: login.userInfo,
   settings: menu.settings,
   menuList: menu.menuList,
+  schoolInfo: school.schoolInfo,
 }))(BasicLayout);

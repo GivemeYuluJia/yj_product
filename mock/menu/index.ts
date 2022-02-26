@@ -10,6 +10,10 @@ const menuList = [
         path: '/home/school',
         name: '校园总览',
       },
+      {
+        path: '/home/campusNews',
+        name: '校园新闻',
+      },
     ],
   },
   {
