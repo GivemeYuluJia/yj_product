@@ -173,7 +173,7 @@ const SchoolView: React.FC<SchoolViewType> = (props) => {
           avatar={<Avatar src={schoolInfo.avatar} />}
           title={
             <span>
-              <a className={styles.title} href={`/home/news/`}>
+              <a className={styles.title} href={`/home/campusNews/${item.id}`}>
                 {item.title}
               </a>
             </span>
@@ -219,7 +219,7 @@ const SchoolView: React.FC<SchoolViewType> = (props) => {
                           size="small"
                           src={<Image src={item.logo} style={{ width: 32 }} />}
                         />
-                        <Link to={`/activity/detail/${item.id}`}>
+                        <Link to={`/activity/campusActivity/detail/${item.id}`}>
                           {item.title}
                         </Link>
                       </div>

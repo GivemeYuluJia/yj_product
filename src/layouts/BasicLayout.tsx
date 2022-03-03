@@ -49,6 +49,13 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       icon: icon && IconMap[icon as string],
       routes: children && loopMenuItem(children),
     }));
+
+  const hasPageContent = () => {
+    return (
+      props.location?.pathname !== '/home/school' &&
+      props.location?.pathname !== '/workplace/outgoing-registration-form'
+    );
+  };
   console.log(props, 'mmmm');
   return (
     <ConfigProvider locale={zhCN}>
@@ -93,7 +100,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           return loopMenuItem(menuList || []) || [];
         }}
       >
-        {props.location?.pathname !== '/home/school' ? (
+        {hasPageContent() ? (
           <PageContainer
             ghost
             header={{

@@ -8,11 +8,19 @@ const menuList = [
     children: [
       {
         path: '/home/school',
+        name: '校园导航',
+      },
+      {
+        path: '/home/campusOverView',
         name: '校园总览',
       },
       {
         path: '/home/campusNews',
         name: '校园新闻',
+      },
+      {
+        path: '/home/campusBuilds',
+        name: '校园建筑',
       },
     ],
   },
@@ -25,6 +33,21 @@ const menuList = [
         path: '/activity/campusActivity',
         name: '校园活动',
       },
+    ],
+  },
+  {
+    path: '/workplace',
+    name: '工作台',
+    icon: 'smile',
+    children: [
+      {
+        path: '/workplace/outgoing-registration-form',
+        name: '外出登记表',
+      },
+      // {
+      //   path: '/account/setting',
+      //   name: '个人设置',
+      // },
     ],
   },
   {

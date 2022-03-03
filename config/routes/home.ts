@@ -10,8 +10,13 @@ export default [
       },
       {
         path: '/home/school',
-        name: '校园总览',
+        name: '校园导航',
         component: './home/school',
+      },
+      {
+        path: '/home/campusOverView',
+        name: '校园总览',
+        component: './home/campusOverView',
       },
       {
         path: '/home/campusNews',
@@ -22,6 +27,11 @@ export default [
         path: '/home/campusNews/:newsdetailid?',
         name: '新闻详情',
         component: './home/campusNews/detail',
+      },
+      {
+        path: '/home/campusBuilds',
+        name: '校园建筑',
+        component: './home/campusBuilds',
       },
     ],
   },
