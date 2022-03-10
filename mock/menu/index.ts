@@ -44,10 +44,10 @@ const menuList = [
         path: '/workplace/outgoing-registration-form',
         name: '外出登记表',
       },
-      // {
-      //   path: '/account/setting',
-      //   name: '个人设置',
-      // },
+      {
+        path: '/workplace/scoreSearch',
+        name: '成绩查询',
+      },
     ],
   },
   {
@@ -69,7 +69,7 @@ const menuList = [
 
 export default {
   'POST /api/getMenuList': async (req: Request, res: Response) => {
-    const { token } = req.headers;
+    const { yjtoken } = req.headers;
     //校验token是否过期
     // if(...){
     //   res.send({

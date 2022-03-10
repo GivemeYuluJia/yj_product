@@ -3,6 +3,9 @@ import { history } from 'umi';
 
 axios.interceptors.request.use(
   (config: any) => {
+    if (localStorage.getItem('yjtoken')) {
+      config.headers.yjtoken = localStorage.getItem('yjtoken');
+    }
     if (localStorage.getItem('token')) {
       config.headers.token = localStorage.getItem('token');
     }
@@ -14,7 +17,8 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => {
     const res = response.data;
-    if (res.status === 'token过期') {
+    if (res.status === 1001) {
+      localStorage.removeItem('yjtoken');
       localStorage.removeItem('token');
       history.push(`/login`);
     }

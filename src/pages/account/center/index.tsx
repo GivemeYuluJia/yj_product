@@ -185,7 +185,7 @@ const AccountCenter: React.FC<AccountCenterProps> = (props) => {
         <Moments
           momentList={momentList}
           avatar={userInfo.avatar}
-          name={userInfo.studentName}
+          name={userInfo.username}
         />
       );
     }
@@ -200,7 +200,7 @@ const AccountCenter: React.FC<AccountCenterProps> = (props) => {
               <div>
                 <div className="avatarHolder">
                   <img alt="" src={userInfo.avatar} />
-                  <div className="name">{userInfo.studentName}</div>
+                  <div className="name">{userInfo.username}</div>
                   <div>{userInfo?.signature}</div>
                 </div>
               </div>

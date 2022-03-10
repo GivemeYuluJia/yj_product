@@ -53,7 +53,7 @@ const Item = (props) => {
       <>
         <Form.Item
           className="login-input"
-          name="studentId"
+          name="accountId"
           rules={[{ required: true, message: '请输入用户校园学号!' }]}
         >
           <Input

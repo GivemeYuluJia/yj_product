@@ -20,7 +20,7 @@ class SecurityLayout extends React.Component {
   render() {
     const { isReady } = this.state;
     const { children } = this.props;
-    const isLogin = localStorage.getItem('token');
+    const isLogin = localStorage.getItem('yjtoken');
 
     if (!isReady) return <PageLoading />;
     if (!isLogin && window.location.pathname !== '/login')

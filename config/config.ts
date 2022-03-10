@@ -1,5 +1,6 @@
 import { defineConfig } from 'umi';
 import routes from './routes';
+import proxy from './proxy';
 import defaultSettings from './defaultSettings';
 
 export default defineConfig({
@@ -26,5 +27,11 @@ export default defineConfig({
   //     ...defaultSettings,
   //   },
   routes,
+  proxy: {
+    '/api2': {
+      target: 'http://localhost:7001',
+      ChangeOrigin: true,
+    },
+  },
   fastRefresh: {},
 });

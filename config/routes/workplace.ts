@@ -19,6 +19,11 @@ export default [
         component:
           './workplace/outgoing-registration-form/components/request-form-detail',
       },
+      {
+        path: '/workplace/scoreSearch',
+        name: '成绩查询',
+        component: './workplace/scoreSearch',
+      },
     ],
   },
 ];

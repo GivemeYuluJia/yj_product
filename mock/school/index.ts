@@ -269,7 +269,7 @@ const schoolList = {
 
 export default {
   'POST /api/getSchoolInfo': async (req: Request, res: Response) => {
-    const { token } = req.headers;
+    const { yjtoken } = req.headers;
     //校验token是否过期
     // if(...){
     //   res.send({
@@ -285,7 +285,7 @@ export default {
       city: 0,
     };
     userToken.forEach((item) => {
-      if (item.yjToken === token) {
+      if (item.yjToken === yjtoken) {
         school = item.school[1];
         schoolInfo = schoolList[school as string];
         let country = schoolInfo.country,
@@ -308,10 +308,10 @@ export default {
     });
   },
   'POST /api/getSchoolActivityList': async (req: Request, res: Response) => {
-    const { token } = req.headers;
+    const { yjtoken } = req.headers;
     let school: string, activityList: any;
     userToken.forEach((item) => {
-      if (item.yjToken === token) {
+      if (item.yjToken === yjtoken) {
         school = item.school[1];
         activityList = schoolActivity[school as string];
       }
@@ -336,11 +336,11 @@ export default {
     });
   },
   'GET /api/getSchoolActivityItem': async (req: Request, res: Response) => {
-    const { token } = req.headers;
+    const { yjtoken } = req.headers;
     const { id } = req.query;
     let school: string, activityList: any;
     userToken.forEach((item) => {
-      if (item.yjToken === token) {
+      if (item.yjToken === yjtoken) {
         school = item.school[1];
         activityList = schoolActivity[school as string];
       }
@@ -367,10 +367,10 @@ export default {
     });
   },
   'POST /api/getSchoolNewsList': async (req: Request, res: Response) => {
-    const { token } = req.headers;
+    const { yjtoken } = req.headers;
     let school: string, newsList: any;
     userToken.forEach((item) => {
-      if (item.yjToken === token) {
+      if (item.yjToken === yjtoken) {
         school = item.school[1];
         newsList = schoolNews[school as string];
       }

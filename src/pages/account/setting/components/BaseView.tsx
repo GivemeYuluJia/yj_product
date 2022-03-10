@@ -159,7 +159,7 @@ const BaseView: React.FC<BaseViewProps> = (props) => {
               <ProFormText
                 width="md"
                 label="昵称"
-                name="studentName"
+                name="username"
                 rules={[
                   {
                     required: true,

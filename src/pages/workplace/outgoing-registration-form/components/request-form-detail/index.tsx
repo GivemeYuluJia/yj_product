@@ -74,9 +74,7 @@ const RequestFormDetail = (props) => {
         <PageHeader
           className={styles.requestFormDetailHeader}
           title={`${userInfo.studentName}提交的学生外出登记单`}
-          // footer={[
-
-          // ]}
+          onBack={() => history.goBack()}
         >
           <div className={styles.detailHeaderContent}>
             <div>
@@ -92,13 +90,13 @@ const RequestFormDetail = (props) => {
               <List.Item key={detailItem.id}>
                 <List.Item.Meta title="审批编号" description={detailItem.id} />
               </List.Item>
-              <List.Item key={detailItem.startAt}>
+              <List.Item key={`detailItem.startAt`}>
                 <List.Item.Meta
                   title="开始时间"
                   description={detailItem.startAt}
                 />
               </List.Item>
-              <List.Item key={detailItem.endAt}>
+              <List.Item key={`detailItem.endAt`}>
                 <List.Item.Meta
                   title="结束时间"
                   description={detailItem.endAt}

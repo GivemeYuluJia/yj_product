@@ -29,7 +29,7 @@ export type NoticeType = {
 };
 //用户信息
 export type CurrentUser = {
-  studentName: string;
+  username: string;
   avatar: string;
   userid: string;
   notice: NoticeType[];

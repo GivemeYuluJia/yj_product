@@ -156,6 +156,33 @@ const ExtraContent: React.FC<{ extraInfo: Partial<SchoolInfoType> }> = ({
     </div>
   );
 };
+const schoolLink = [
+  {
+    //校园建筑
+    title: 'Architecture',
+    href: '',
+  },
+  {
+    //  校园荣誉
+    title: 'Honor',
+    href: '',
+  },
+  {
+    //  校园墙
+    title: 'Wall',
+    href: '',
+  },
+  {
+    //  校园社团
+    title: 'Club',
+    href: '',
+  },
+  {
+    //  校园部门
+    title: 'Departments',
+    href: '',
+  },
+];
 
 const SchoolView: React.FC<SchoolViewType> = (props) => {
   const { schoolInfo, userInfo, loading, getSchoolInfo } = props;
@@ -271,7 +298,7 @@ const SchoolView: React.FC<SchoolViewType> = (props) => {
           >
             <EditableLinkGroup
               sLinks={schoolInfo.schoolLink}
-              links={userInfo?.link?.school}
+              links={schoolLink}
             />
           </Card>
           <Card

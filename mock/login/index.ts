@@ -38,8 +38,8 @@ const avatars = [
 ];
 export const userToken = [
   {
-    studentId: 1801126027,
-    studentName: '马大葱',
+    accountId: 1801126027,
+    username: '马大葱',
     password: 'mj123456',
     phone: '13919980911',
     school: ['福州理工学院', 'FIT'],
@@ -63,9 +63,9 @@ export const userToken = [
 
 const userList = [
   {
-    userid: '00000001',
-    studentId: 1801126027,
-    studentName: '马大葱',
+    id: '00000001',
+    accountId: 1801126027,
+    username: '马大葱',
     avatar:
       'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fnimg.ws.126.net%2F%3Furl%3Dhttp%253A%252F%252Fdingyue.ws.126.net%252F2021%252F1110%252F4bbe6708j00r2bj2m000dc0008c008cg.jpg%26thumbnail%3D650x2147483647%26quality%3D80%26type%3Djpg&refer=http%3A%2F%2Fnimg.ws.126.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1642580933&t=e749295b6c4feb3298de2a60111649ef',
     phone: '86-13999999997',
@@ -168,10 +168,10 @@ const userList = [
 export default {
   //登陆 模拟获取token
   'POST /api/login': async (req: Request, res: Response) => {
-    const { studentId, password } = req.body;
+    const { accountId, password } = req.body;
     for (let i = 0; i < userToken.length; i++) {
       if (
-        userToken[i].studentId === Number(studentId) &&
+        userToken[i].accountId === Number(accountId) &&
         userToken[i].password === password
       ) {
         res.send({
@@ -191,14 +191,14 @@ export default {
     }
   },
   'POST /api/getCurrentUser': async (req: Request, res: Response) => {
-    const { token } = req.headers;
-    let studentId: number;
+    const { yjtoken } = req.headers;
+    let accountId: number;
     userToken.forEach((item) => {
-      if (item.yjToken === token) {
-        studentId = item.studentId;
+      if (item.yjToken === yjtoken) {
+        accountId = item.accountId;
       }
     });
-    let userItem = userList.filter((item) => studentId === item.studentId);
+    let userItem = userList.filter((item) => accountId === item.accountId);
     userItem.length
       ? res.send({
           success: true,
@@ -213,11 +213,11 @@ export default {
   },
   // 修改用户标签
   'POST /api/updateTag': async (req: Request, res: Response) => {
-    const { token } = req.headers;
+    const { yjtoken } = req.headers;
     const { key, color, label } = req.body;
     let studentId: number;
     userToken.forEach((item) => {
-      if (item.yjToken === token) {
+      if (item.yjToken === yjtoken) {
         studentId = item.studentId;
       }
     });
@@ -259,7 +259,7 @@ export default {
       signature,
       studentName,
     } = req.body;
-    const { token } = req.headers;
+    const { yjtoken } = req.headers;
     //校验token是否过期
     // if(...){
     //   res.send({
@@ -269,7 +269,7 @@ export default {
     // }
     let studentId: number;
     userToken.forEach((item) => {
-      if (item.yjToken === token) {
+      if (item.yjToken === yjtoken) {
         studentId = item.studentId;
       }
     });
@@ -302,7 +302,7 @@ export default {
     req: Request,
     res: Response,
   ) => {
-    const { token } = req.headers;
+    const { yjtoken } = req.headers;
 
     //校验token是否过期
     // if(...){
@@ -312,7 +312,7 @@ export default {
     //   })
     // }
     userToken.map((item) => {
-      if (item.yjToken === token) {
+      if (item.yjToken === yjtoken) {
         // if(!pwdNotify) pwdNotify = item.Notification.pwdNotify;
         // if(!systemNotify) systemNotify = item.Notification.systemNotify;
         // if(!taskNotify) taskNotify = item.Notification.taskNotify;

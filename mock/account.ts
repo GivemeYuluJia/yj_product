@@ -22,10 +22,10 @@ const getPasswordStrength = (password: string) => {
 };
 const userMoment = [
   {
-    studentId: 1801126027,
+    accountId: 1801126027,
     avatar:
       'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fnimg.ws.126.net%2F%3Furl%3Dhttp%253A%252F%252Fdingyue.ws.126.net%252F2021%252F1110%252F4bbe6708j00r2bj2m000dc0008c008cg.jpg%26thumbnail%3D650x2147483647%26quality%3D80%26type%3Djpg&refer=http%3A%2F%2Fnimg.ws.126.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1642580933&t=e749295b6c4feb3298de2a60111649ef',
-    studentName: '马大葱',
+    username: '马大葱',
     momentList: [
       {
         id: 'moment-mj-0001',
@@ -88,21 +88,21 @@ const userMoment = [
 export default {
   //获取用户动态
   'POST /api/account/moment': async (req: Request, res: Response) => {
-    const { token } = req.headers;
-    let studentId: number;
+    const { yjtoken } = req.headers;
+    let accountId: number;
     userToken.forEach((item) => {
-      if (item.yjToken === token) {
-        studentId = item.studentId;
+      if (item.yjToken === yjtoken) {
+        accountId = item.accountId;
       }
     });
-    let momentItem = userMoment.filter((item) => studentId === item.studentId);
+    let momentItem = userMoment.filter((item) => accountId === item.accountId);
     momentItem.length
       ? res.send({
           status: 'ok',
           success: true,
           data: momentItem[0].momentList,
           // avatar: momentItem[0].avatar,
-          // name: momentItem[0].studentName
+          // name: momentItem[0].username
         })
       : res.send({
           status: 'err',
@@ -112,7 +112,7 @@ export default {
   },
   //用户安全设置信息
   'POST /api/account/SecurityInfo': async (req: Request, res: Response) => {
-    const { token } = req.headers;
+    const { yjtoken } = req.headers;
     //校验token是否过期
     // if(...){
     //   res.send({
@@ -120,7 +120,7 @@ export default {
     //     success: false,
     //   })
     // }
-    let security = userToken.filter((item) => item.yjToken === token)[0];
+    let security = userToken.filter((item) => item.yjToken === yjtoken)[0];
     let passwordStrength = getPasswordStrength(security.password);
     let phone =
       security.phone &&

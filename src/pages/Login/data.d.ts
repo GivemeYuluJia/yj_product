@@ -33,9 +33,9 @@ export type EditableLink = {
   id?: string;
 };
 export type userInfoType = {
-  userid?: string;
-  studentId?: number;
-  studentName?: string;
+  id?: string;
+  accountId?: number;
+  username?: string;
   avatar?: string;
   phone?: string;
   sex?: string;

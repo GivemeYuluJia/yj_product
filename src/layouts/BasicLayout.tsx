@@ -33,7 +33,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const menDateRef = useRef<MenuDataItem[]>([]);
 
   useEffect(() => {
-    if (!userInfo.userid) {
+    if (!userInfo.id) {
       dispatch({ type: 'login/getCurrentUser' });
     }
     if (!schoolInfo.schoolName) {

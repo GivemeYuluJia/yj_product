@@ -4,7 +4,7 @@ export async function login(
   body: API.LoginParams,
   options?: { [key: string]: any },
 ) {
-  return request('/api/login', {
+  return request('/api2/user/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -14,7 +14,7 @@ export async function login(
   });
 }
 export async function getCurrentUser() {
-  return request('/api/getCurrentUser', {
+  return request('/api2/user/getCurrentUser', {
     method: 'POST',
   });
 }

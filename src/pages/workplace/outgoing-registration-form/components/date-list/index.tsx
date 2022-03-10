@@ -4,6 +4,7 @@ import { NAMESPACE } from '../../model';
 import { outgoingQeuestFormListType } from '../../data';
 import { userInfoType } from '@/pages/Login/data';
 import { connect, history } from 'umi';
+import moment from 'moment';
 
 const NAME_SPACE = NAMESPACE;
 const { Text, Link } = Typography;
@@ -58,13 +59,17 @@ const DateList: React.FC<DateListType> = (props) => {
           >
             <Card.Meta
               avatar={<Avatar src={userInfo.avatar} />}
-              title={`${userInfo.studentName}提交的外出登记单`}
+              title={`${userInfo.username}提交的外出登记单`}
               description={[
-                <div
-                  key={0 + item.createAt}
-                >{`提交时间: ${item.createAt}`}</div>,
-                <div key={1 + item.startAt}>{`开始时间: ${item.startAt}`}</div>,
-                <div key={2 + item.endAt}>{`结束时间: ${item.endAt}`}</div>,
+                <div key={0 + item.createAt}>{`提交时间: ${moment(
+                  item.createAt,
+                ).format('YYYY-MM-DD')}`}</div>,
+                <div key={1 + item.startAt}>{`开始时间: ${moment(
+                  item.startAt,
+                ).format('YYYY-MM-DD')}`}</div>,
+                <div key={2 + item.endAt}>{`结束时间: ${moment(
+                  item.endAt,
+                ).format('YYYY-MM-DD')}`}</div>,
               ]}
             />
           </Card>

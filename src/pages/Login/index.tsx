@@ -23,7 +23,7 @@ const Login: React.FC<LoginProps> = (props) => {
   useEffect(() => {
     setPageLoading(false);
     console.log(props, 'effect');
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('yjtoken')) {
       if (!history) return;
       const { query } = history.location;
       const { redirect } = query as { redirect: string };
@@ -35,7 +35,7 @@ const Login: React.FC<LoginProps> = (props) => {
   const handleChange = (el) => {
     setLoginType(el.target.value);
     form.setFieldsValue({
-      studentId: undefined,
+      accountId: undefined,
       password: undefined,
       phone: undefined,
       code: undefined,
@@ -45,25 +45,26 @@ const Login: React.FC<LoginProps> = (props) => {
     form.validateFields().then(async (val) => {
       setPageLoading(true);
       if (loginType === 'account') {
-        const { studentId, password } = val;
-        let res = await login({ studentId, password });
+        const { accountId, password } = val;
+        let res = await login({ accountId, password });
         console.log(res, 'rr');
-        if (res.status === 'ok') {
+        if (res.status === 200) {
           if ('data' in res) {
-            const { data = '' } = res;
-            localStorage.setItem('token', data);
+            const { data } = res;
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('yjtoken', 'majundasha');
           }
           //gai update
           //   const token = localStorage.getItem('token');
           const user = await getCurrentUser();
-          if (user.status === 'ok') {
+          if (user.status === 200) {
             if (!history) return;
             const { query } = history.location;
             const { redirect } = query as { redirect: string };
             history.push(redirect || '/');
             return;
           } else {
-            message.error(res.status + 'token');
+            message.error(res.status + 'yjtoken');
           }
         } else {
           message.error(res.status);
