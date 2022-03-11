@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { history } from 'umi';
+import { message } from 'antd';
 
 axios.interceptors.request.use(
   (config: any) => {
@@ -20,6 +21,7 @@ axios.interceptors.response.use(
     if (res.status === 1001) {
       localStorage.removeItem('yjtoken');
       localStorage.removeItem('token');
+      message.info('请重新登录');
       history.push(`/login`);
     }
     return res;

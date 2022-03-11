@@ -200,6 +200,7 @@ const schoolLink = [
 
 const schoolList = {
   FIT: {
+    schoolId: 1,
     schoolName: '福州理工学院',
     officialWeb: 'http://www.fit.edu.cn/',
     abbreviation: 'FIT',

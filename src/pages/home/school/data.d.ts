@@ -12,6 +12,7 @@ export type SchoolNewsType = {
   template: string;
 };
 export type SchoolInfoType = {
+  schoolId?: number;
   schoolName?: string;
   abbreviation?: string;
   officialWeb?: string;
