@@ -8,6 +8,7 @@ import { Avatar, Menu, Spin } from 'antd';
 import { history, connect, Link, Dispatch } from 'umi';
 import { userInfoType } from '@/pages/Login/data';
 import HeaderDropdown from '../HeaderDropdown';
+import { defaultAvatar } from '@/layouts/SecurityLayout';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 
 import styles from './index.less';
@@ -39,7 +40,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({
         </Menu.Item>
       )}
       {!menu && (
-        <Menu.Item key="settings">
+        <Menu.Item key="setting">
           <SettingOutlined />
           个人设置
         </Menu.Item>
@@ -52,6 +53,14 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({
       </Menu.Item>
     </Menu>
   );
+  const getAvatarURL = () => {
+    if (userInfo) {
+      if (userInfo.avatar) return userInfo.avatar;
+      const url = defaultAvatar;
+      return url;
+    }
+    return '';
+  };
 
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
@@ -59,7 +68,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({
         <Avatar
           size="small"
           className={styles.avatar}
-          src={userInfo?.avatar}
+          src={getAvatarURL()}
           alt="avatar"
         />
         <span className={`${styles.name} anticon`}>{userInfo?.username}</span>

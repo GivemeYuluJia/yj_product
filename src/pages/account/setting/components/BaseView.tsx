@@ -94,7 +94,7 @@ const BaseView: React.FC<BaseViewProps> = (props) => {
     delete params['province'];
     delete params['city'];
     let res = await updateCurrentUserInfo(params);
-    if (res.success) {
+    if (res.status === 200) {
       message.success('更新基本信息成功');
     } else {
       message.error(res.status);

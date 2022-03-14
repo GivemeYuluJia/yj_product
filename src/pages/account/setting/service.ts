@@ -12,7 +12,7 @@ export async function queryCity(
 }
 
 export async function updateCurrentUserInfo(params: any): Promise<any> {
-  return request('/api/account/updateCurrentUserInfo', {
+  return request('/api2/user/editCurrentUserInfo', {
     method: 'POST',
     data: params,
   });

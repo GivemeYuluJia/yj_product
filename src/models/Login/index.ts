@@ -77,13 +77,13 @@ const Model: LoginModel = {
     *updateCurrentUserInfo({ payload: params }, { call, put }) {
       const res = yield call(updateCurrentUserInfo, { ...params });
       const { data } = res;
-      yield put({
-        type: 'setUserInfo',
-        payload: {
-          userInfo: data,
-          loading: false,
-        },
-      });
+      // yield put({
+      //   type: 'setUserInfo',
+      //   payload: {
+      //     userInfo: data,
+      //     loading: false,
+      //   },
+      // });
       return res;
     },
   },

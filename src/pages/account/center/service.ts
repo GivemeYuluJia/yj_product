@@ -5,7 +5,7 @@ type tagOption = {
 };
 
 export async function updateTag({ params }: tagOption) {
-  return request('/api/updateTag', {
+  return request('/api2/user/addUserTags', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

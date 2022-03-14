@@ -5,9 +5,9 @@ const Badge = (props: any) => {
   const { info } = props;
 
   const renderChildren = () => {
-    return Object.keys(info).map((item) =>
+    return Object.keys(info).map((item, index) =>
       item === '校徽' ? (
-        <>
+        <div key={item}>
           <Divider orientation="left">
             <h2>【{item}】</h2>
           </Divider>
@@ -16,9 +16,9 @@ const Badge = (props: any) => {
               <Image src={info[item]} width={200} />
             </Col>
           </Row>
-        </>
+        </div>
       ) : (
-        <>
+        <div key={item}>
           <Divider orientation="left">
             <h2>【{item}】</h2>
           </Divider>
@@ -27,7 +27,7 @@ const Badge = (props: any) => {
               {info[item]}
             </Col>
           </Row>
-        </>
+        </div>
       ),
     );
   };

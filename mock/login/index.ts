@@ -215,19 +215,19 @@ export default {
   'POST /api/updateTag': async (req: Request, res: Response) => {
     const { yjtoken } = req.headers;
     const { key, color, label } = req.body;
-    let studentId: number;
+    let accountId: number;
     userToken.forEach((item) => {
       if (item.yjToken === yjtoken) {
-        studentId = item.studentId;
+        accountId = item.accountId;
       }
     });
     userList.map((item) => {
-      if (studentId === item.studentId) {
+      if (accountId === item.accountId) {
         let tag = { key, color, label };
         item.tags = [...item.tags, tag];
       }
     });
-    let userItem = userList.filter((item) => studentId === item.studentId);
+    let userItem = userList.filter((item) => accountId === item.accountId);
     userItem.length
       ? res.send({
           success: true,

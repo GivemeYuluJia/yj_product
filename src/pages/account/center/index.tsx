@@ -92,14 +92,24 @@ const TagList: React.FC<{
       inputValue &&
       tags.filter((tag) => tag.label === inputValue).length === 0
     ) {
+      if (tags.length === 8 || tempsTags.length === 8) {
+        message.warning('标签名数量已到最大, 请勿再此添加');
+        return;
+      }
       let tag = {
         label: inputValue,
-        key: tags.length + 'mj',
         color: Math.floor(Math.random() * tagColor.length),
       };
       const res = await updateTag({ params: tag });
-      if (res.success) {
-        tempsTags = [...tempsTags, tag];
+      if (res.status === 200) {
+        const length = tempsTags.length;
+        tempsTags = [
+          ...tempsTags,
+          {
+            ...tag,
+            key: '' + length,
+          },
+        ];
         setNewTags(tempsTags);
       }
     } else if (tags.filter((tag) => tag.label === inputValue).length !== 0) {
