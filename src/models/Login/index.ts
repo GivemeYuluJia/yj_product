@@ -18,9 +18,11 @@ interface LoginModel {
     getCurrentUser: Effect;
     updateTag: Effect;
     updateCurrentUserInfo: Effect;
+    updateHeader: Effect;
   };
   reducers: {
     setUserInfo: Reducer;
+    setAvatar: Reducer;
   };
 }
 
@@ -86,12 +88,26 @@ const Model: LoginModel = {
       // });
       return res;
     },
+    *updateHeader({ payload: params }, { call, put }) {
+      yield put({
+        type: 'setUserInfo',
+        payload: {
+          avatar: params,
+        },
+      });
+    },
   },
   reducers: {
     setUserInfo(state, { payload }) {
       return {
         ...state,
         ...payload,
+      };
+    },
+    setAvatar(state, { payload }) {
+      state.userInfo.avatar = payload;
+      return {
+        ...state,
       };
     },
   },

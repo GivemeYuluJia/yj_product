@@ -1,4 +1,4 @@
-import react from 'react';
+import react, { useEffect, useState } from 'react';
 import { GridContent } from '@ant-design/pro-layout';
 import { connect, history } from 'umi';
 import { NAMESPACE } from '../../model';
@@ -27,12 +27,25 @@ import styles from './index.less';
 const NAME_SPACE = NAMESPACE;
 const { Step } = Steps;
 
-const RequestFormDetail = (props) => {
-  const { outgoingQeuestFormList, userInfo, schoolInfo, match } = props;
-  const detailItem = outgoingQeuestFormList.filter(
-    (item) => item.id === match.params.outgoingformid,
-  )[0];
-  console.log(outgoingQeuestFormList, 'ooo', match, detailItem);
+const RequestFormDetail = (props: any) => {
+  const {
+    outgoingQuestFormDetail,
+    userInfo,
+    schoolInfo,
+    getOutgoingFormDetail,
+    match,
+  } = props;
+  const [detailLoading, setDetailLoading] = useState(false);
+  useEffect(() => {
+    getOutgoingFormDetail({
+      schoolId: schoolInfo.schoolId,
+      id: Number(match.params.outgoingformid),
+    }).then(() => {
+      setDetailLoading(true);
+    });
+    console.log('????');
+  }, []);
+  console.log(outgoingQuestFormDetail, 'pp');
   const getTags = (state: number) => {
     switch (state) {
       case -1:
@@ -73,7 +86,7 @@ const RequestFormDetail = (props) => {
       <>
         <PageHeader
           className={styles.requestFormDetailHeader}
-          title={`${userInfo.studentName}提交的学生外出登记单`}
+          title={`${userInfo.username}提交的学生外出登记单`}
           onBack={() => history.goBack()}
         >
           <div className={styles.detailHeaderContent}>
@@ -81,49 +94,52 @@ const RequestFormDetail = (props) => {
               <Avatar size="small" src={schoolInfo.avatar} />
               福州理工学院
             </div>
-            <div>{getTags(detailItem.state)}</div>
+            <div>{getTags(outgoingQuestFormDetail.state)}</div>
           </div>
         </PageHeader>
         <Row gutter={24}>
           <Col xs={24} sm={24} md={12}>
             <List className={styles.detailList}>
-              <List.Item key={detailItem.id}>
-                <List.Item.Meta title="审批编号" description={detailItem.id} />
+              <List.Item key={outgoingQuestFormDetail.id}>
+                <List.Item.Meta
+                  title="审批编号"
+                  description={outgoingQuestFormDetail.formNumber}
+                />
               </List.Item>
-              <List.Item key={`detailItem.startAt`}>
+              <List.Item key={`outgoingQuestFormDetail.startAt`}>
                 <List.Item.Meta
                   title="开始时间"
-                  description={detailItem.startAt}
+                  description={outgoingQuestFormDetail.startAt}
                 />
               </List.Item>
-              <List.Item key={`detailItem.endAt`}>
+              <List.Item key={`outgoingQuestFormDetail.endAt`}>
                 <List.Item.Meta
                   title="结束时间"
-                  description={detailItem.endAt}
+                  description={outgoingQuestFormDetail.endAt}
                 />
               </List.Item>
-              <List.Item key={detailItem.professionalGrade}>
+              <List.Item key={outgoingQuestFormDetail.professionalGrade}>
                 <List.Item.Meta
                   title="年级、专业"
-                  description={detailItem.professionalGrade}
+                  description={outgoingQuestFormDetail.professionalGrade}
                 />
               </List.Item>
-              <List.Item key={detailItem.phone[1]}>
+              <List.Item key={outgoingQuestFormDetail.phone}>
                 <List.Item.Meta
                   title="个人手机号码"
-                  description={`${detailItem.phone.join('-')}`}
+                  description={`${outgoingQuestFormDetail.phone}`}
                 />
               </List.Item>
-              <List.Item key={detailItem.reasult}>
+              <List.Item key={outgoingQuestFormDetail.result}>
                 <List.Item.Meta
                   title="外出事由"
-                  description={detailItem.reasult}
+                  description={outgoingQuestFormDetail.result}
                 />
               </List.Item>
-              <List.Item key={detailItem.address}>
+              <List.Item key={outgoingQuestFormDetail.address}>
                 <List.Item.Meta
                   title="外出地址"
-                  description={`${detailItem.province['label']},${detailItem.city['label']},${detailItem.address}`}
+                  description={`${outgoingQuestFormDetail.province['label']},${outgoingQuestFormDetail.city['label']},${outgoingQuestFormDetail.address}`}
                 />
               </List.Item>
             </List>
@@ -134,45 +150,49 @@ const RequestFormDetail = (props) => {
               style={{ marginTop: '12px', borderRadius: '8px' }}
             >
               <Steps
-                current={getStepCurrent(detailItem.state)}
+                current={getStepCurrent(outgoingQuestFormDetail.state)}
                 direction="vertical"
                 status={
-                  detailItem.state === 5
+                  outgoingQuestFormDetail.state === 5
                     ? 'error'
-                    : detailItem.state === 4
+                    : outgoingQuestFormDetail.state === 4
                     ? 'finish'
                     : 'wait'
                 }
               >
                 <Step
                   title="发起申请"
-                  subTitle={moment(detailItem.createAt).format('MM-DD HH:mm')}
+                  subTitle={moment(outgoingQuestFormDetail.createAt).format(
+                    'MM-DD HH:mm',
+                  )}
                   description={
                     <>
                       <Avatar size="small" src={userInfo.avatar} />
-                      我({userInfo.studentName})
+                      我({userInfo.username})
                     </>
                   }
                 />
                 <Step
                   title="信息确认"
-                  subTitle={moment(detailItem.createAt).format('MM-DD HH:mm')}
+                  subTitle={moment(outgoingQuestFormDetail.createAt).format(
+                    'MM-DD HH:mm',
+                  )}
                   description={
                     <>
                       <Avatar size="small" src={userInfo.avatar} />
-                      我({userInfo.studentName})
+                      我({userInfo.username})
                     </>
                   }
                 />
                 {/* <Step title="Waiting" description="This is a description." /> */}
                 {
-                  detailItem.state === -1 ? (
+                  outgoingQuestFormDetail.state === -1 ? (
                     <Step
                       title="请求已撤销"
                       description={
                         <>
                           <Avatar size="small" src={userInfo.avatar} />
-                          我({userInfo.studentName})
+                          我({userInfo.username})
                         </>
                       }
                     />
@@ -184,9 +204,9 @@ const RequestFormDetail = (props) => {
                         <>
                           <Avatar size="small" icon={<UserOutlined />} />
                           xx(
-                          {detailItem.state === 5
+                          {outgoingQuestFormDetail.state === 5
                             ? '已拒绝'
-                            : detailItem.state === 4
+                            : outgoingQuestFormDetail.state === 4
                             ? '已同意'
                             : '审批中'}
                           )
@@ -207,30 +227,26 @@ const RequestFormDetail = (props) => {
 
   return (
     <GridContent className={styles.requestFormDetailContent}>
-      {outgoingQeuestFormList.length ? (
-        renderDetailItem()
-      ) : (
-        <Result
-          status="404"
-          title="404"
-          subTitle="Sorry, the page you visited does not exist."
-          extra={
-            <Button type="primary" onClick={() => history.goBack()}>
-              返回
-            </Button>
-          }
-        />
-      )}
+      {detailLoading ? renderDetailItem() : null}
     </GridContent>
   );
 };
-export default connect((state: any) => {
-  const { outgoingQeuestFormList } = state[NAME_SPACE];
-  const { userInfo } = state['login'];
-  const { schoolInfo } = state['school'];
-  return {
-    outgoingQeuestFormList,
-    userInfo,
-    schoolInfo,
-  };
-})(RequestFormDetail);
+export default connect(
+  (state: any) => {
+    const { outgoingQuestFormDetail } = state[NAME_SPACE];
+    const { userInfo } = state['login'];
+    const { schoolInfo } = state['school'];
+    return {
+      outgoingQuestFormDetail,
+      userInfo,
+      schoolInfo,
+    };
+  },
+  (dispatch: any) => ({
+    getOutgoingFormDetail: (params: any) =>
+      dispatch({
+        type: `${NAME_SPACE}/getOutgoingFormDetail`,
+        payload: params,
+      }),
+  }),
+)(RequestFormDetail);

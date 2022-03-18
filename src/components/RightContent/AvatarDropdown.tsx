@@ -55,7 +55,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({
   );
   const getAvatarURL = () => {
     if (userInfo) {
-      if (userInfo.avatar) return userInfo.avatar;
+      if (userInfo.avatar) return `http://localhost:7001${userInfo.avatar}`;
       const url = defaultAvatar;
       return url;
     }

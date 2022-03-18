@@ -51,6 +51,17 @@ const menuList = [
     ],
   },
   {
+    path: '/payment',
+    name: '充值页',
+    icon: 'pay',
+    children: [
+      {
+        path: '/payment/campusCard',
+        name: '校园卡充值',
+      },
+    ],
+  },
+  {
     path: '/account',
     name: '个人页面',
     icon: 'user',

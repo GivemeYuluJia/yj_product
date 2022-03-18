@@ -4,6 +4,7 @@ import {
   UserOutlined,
   HomeOutlined,
   FireOutlined,
+  PayCircleOutlined,
 } from '@ant-design/icons';
 export const IconMap = {
   home: <HomeOutlined />,
@@ -11,4 +12,5 @@ export const IconMap = {
   fire: <FireOutlined />,
   heart: <HeartOutlined />,
   user: <UserOutlined />,
+  pay: <PayCircleOutlined />,
 };

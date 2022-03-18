@@ -2,6 +2,7 @@ import account from './account';
 import home from './home';
 import activity from './activity';
 import workplace from './workplace';
+import payment from './payment';
 
 export default [
   {
@@ -20,6 +21,7 @@ export default [
           ...home,
           ...activity,
           ...workplace,
+          ...payment,
           ...account,
           {
             component: './404',

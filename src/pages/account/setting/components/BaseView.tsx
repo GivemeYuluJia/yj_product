@@ -12,7 +12,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { userInfoType } from '@/pages/Login/data';
 import { defaultAvatar } from '@/layouts/SecurityLayout';
 import { queryProvince, queryCity } from '../service';
-
+import { fileParse } from '@/unils/fileParse';
 import styles from './BaseView.less';
 
 export interface BaseViewProps {
@@ -24,27 +24,30 @@ export interface BaseViewProps {
 //头像框
 const AvatarView = ({ avatar }: { avatar: string }) => {
   const props = {
-    name: 'file',
-    action: '/api/account/updateAvatar',
+    name: 'avatar',
+    action: '/api2/user/updateAvatar',
     headers: {
       authorization: 'authorization-text',
+      token: localStorage.getItem('token') || undefined,
     },
-    onChange(info: any) {
+    async onChange(info: any) {
       if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
+        console.log(info.file, info.fileList, 'kk');
       }
       if (info.file.status === 'done') {
+        window.location.reload();
         message.success(`${info.file.name} file uploaded successfully`);
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }
     },
   };
+
   return (
     <>
       <div className={styles.avatar_title}>头像</div>
       <div className={styles.avatar}>
-        <img src={avatar} alt="avatar" />
+        <img src={`http://localhost:7001${avatar}`} alt="avatar" />
       </div>
       <Upload showUploadList={false} {...props}>
         <div className={styles.button_view}>
@@ -219,7 +222,7 @@ const BaseView: React.FC<BaseViewProps> = (props) => {
                   }}
                 />
                 <ProFormDependency name={['province']}>
-                  {({ province }: { province: any }) => {
+                  {({ province }: any) => {
                     return (
                       <ProFormSelect
                         params={{

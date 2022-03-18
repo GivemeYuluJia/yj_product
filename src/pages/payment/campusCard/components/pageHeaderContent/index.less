@@ -1,0 +1,31 @@
+@import '~antd/es/style/themes/default.less';
+
+.page-header-content {
+  position: relative;
+  display: flex;
+  > .avatar {
+    flex: 0 1 72px;
+    & > span {
+      display: block;
+      width: 72px;
+      height: 72px;
+      border-radius: 72px;
+    }
+  }
+  > .content {
+    position: relative;
+    top: 4px;
+    flex: 1 1 auto;
+    margin-left: 24px;
+    font-size: 16px;
+    color: @text-color-secondary;
+    line-height: 22px;
+    > .content-title {
+      color: @heading-color;
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      line-height: 28px;
+    }
+  }
+}

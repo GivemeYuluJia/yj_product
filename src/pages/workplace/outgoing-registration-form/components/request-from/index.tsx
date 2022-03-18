@@ -20,7 +20,7 @@ const { Step } = Steps;
 const NAME_SPACE = NAMESPACE;
 
 const RequestFrom = (props: any) => {
-  const { dispatch } = props;
+  const { schoolInfo, dispatch } = props;
   const [status, setStatus] = useState({
     isShow: false,
     isSuccess: false,
@@ -34,7 +34,7 @@ const RequestFrom = (props: any) => {
       phone,
       professionalGrade,
       province,
-      reasult,
+      result,
     } = e;
     const params = {
       address,
@@ -42,16 +42,17 @@ const RequestFrom = (props: any) => {
       startAt: createTime[0],
       endAt: createTime[1],
       createAt: new Date(),
-      phone,
+      phone: phone.join('-'),
       professionalGrade,
       province,
-      reasult,
+      result,
+      schoolId: schoolInfo.schoolId,
     };
     dispatch({
       type: `${NAME_SPACE}/initiateOutGoingForm`,
       payload: params,
     }).then((res) => {
-      if (res.success) {
+      if (res.status === 200) {
         setStatus({
           isShow: true,
           isSuccess: true,
@@ -122,7 +123,7 @@ const RequestFrom = (props: any) => {
             <Input className={styles.phone_number} style={{ width: '100%' }} />
           </ProFormFieldSet>
           <ProFormTextArea
-            name="reasult"
+            name="result"
             label="外出事由"
             rules={[
               {
@@ -218,4 +219,6 @@ const RequestFrom = (props: any) => {
   );
 };
 
-export default connect()(RequestFrom);
+export default connect(({ school }: any) => ({
+  schoolInfo: school.schoolInfo,
+}))(RequestFrom);

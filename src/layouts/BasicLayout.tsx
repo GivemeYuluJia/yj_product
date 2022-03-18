@@ -53,7 +53,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const hasPageContent = () => {
     return (
       props.location?.pathname !== '/home/school' &&
-      props.location?.pathname !== '/workplace/outgoing-registration-form'
+      props.location?.pathname !== '/workplace/outgoing-registration-form' &&
+      props.location?.pathname !== '/payment/campusCard'
     );
   };
   console.log(props, 'mmmm');
